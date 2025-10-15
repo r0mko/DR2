@@ -1,0 +1,22 @@
+<RCC>
+    <qresource prefix="/">
+        <file>main.qml</file>
+        <file>PropertyEditorDelegate.qml</file>
+        <file>PropertyDelegateCommon.qml</file>
+        <file>PropertyDelegateInt.qml</file>
+        <file>PropertyDelegateInvalid.qml</file>
+        <file>PropertyDelegateDouble.qml</file>
+        <file>PropertyDelegateSlider.qml</file>
+        <file>PropertyDelegateString.qml</file>
+        <file>PropertyDelegateFont.qml</file>
+        <file>PropertyDelegateColor.qml</file>
+        <file>PropertyDelegateBool.qml</file>
+        <file>PropertyDelegateObject.qml</file>
+        <file>PropertyDelegateList.qml</file>
+        <file>ListViewDelegate.qml</file>
+        <file>PropertyDelegateVariantList.qml</file>
+        <file>MetaPropertyDelegate.qml</file>
+        <file>PropertyEditorDelegate2.qml</file>
+        <file>MetaPropertyDelegate2.qml</file>
+    </qresource>
+</RCC>

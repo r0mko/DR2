@@ -1,0 +1,12 @@
+#ifndef UF2DEVICE_GLOBAL_H
+#define UF2DEVICE_GLOBAL_H
+
+#include <QtCore/qglobal.h>
+
+#if defined(UF2DEVICE_LIBRARY)
+#  define UF2DEVICESHARED_EXPORT Q_DECL_EXPORT
+#else
+#  define UF2DEVICESHARED_EXPORT Q_DECL_IMPORT
+#endif
+
+#endif // UF2DEVICE_GLOBAL_H

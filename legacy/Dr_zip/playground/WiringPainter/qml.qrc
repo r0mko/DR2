@@ -1,0 +1,15 @@
+<RCC>
+    <qresource prefix="/">
+        <file>wiringeditor.qml</file>
+        <file>RibDelegate.qml</file>
+        <file>SmoothWireDelegate.qml</file>
+        <file>RectHandle.qml</file>
+        <file>RouteBuilder.qml</file>
+        <file>WireBuilder.qml</file>
+        <file>HandleItem.qml</file>
+        <file>guidepainter.qml</file>
+        <file>EdgeWeaver.qml</file>
+        <file>MarkerItem.qml</file>
+        <file>contactnetwork.qml</file>
+    </qresource>
+</RCC>

@@ -1,0 +1,27 @@
+<RCC>
+    <qresource prefix="/">
+        <file>main.qml</file>
+        <file>rightpanel/typeeditor/BoolColumnDelegate.qml</file>
+        <file>rightpanel/typeeditor/ClassCompleter.qml</file>
+        <file>rightpanel/typeeditor/ColumnDelegate.qml</file>
+        <file>rightpanel/typeeditor/TypeEditor.qml</file>
+        <file>rightpanel/CaptionLabel.qml</file>
+        <file>rightpanel/DefaultDelegate_Collection.qml</file>
+        <file>rightpanel/DefaultDelegate_DataNode.qml</file>
+        <file>rightpanel/DefaultDelegate_Instance.qml</file>
+        <file>rightpanel/DefaultDelegate_MetaNode.qml</file>
+        <file>rightpanel/DefaultDelegate_Node.qml</file>
+        <file>rightpanel/DefaultDelegate_Type.qml</file>
+        <file>rightpanel/DefaultDelegateWrapper.qml</file>
+        <file>treeview/GraphTreeView.qml</file>
+        <file>treeview/NodeIcon.qml</file>
+        <file>treeview/TV_Blob.qml</file>
+        <file>treeview/TV_Collection.qml</file>
+        <file>treeview/TV_DataNode.qml</file>
+        <file>treeview/TV_Instance.qml</file>
+        <file>treeview/TV_MetaNode.qml</file>
+        <file>treeview/TV_Node.qml</file>
+        <file>treeview/TV_Type.qml</file>
+        <file>AuxModel.qml</file>
+    </qresource>
+</RCC>

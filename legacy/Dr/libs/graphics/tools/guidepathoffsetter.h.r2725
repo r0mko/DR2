@@ -1,0 +1,43 @@
+#ifndef GUIDEPATHOFFSETTER_H
+#define GUIDEPATHOFFSETTER_H
+#include "guidepath.h"
+
+class Wavefront
+{
+    friend class GuidePath;
+    friend class GuidePathOffsetter;
+public:
+    struct WFNode
+    {
+        WFNode() {}
+//        void setDecayRate(const WFNode &next)
+//        {
+//            leftDecay = QVector2D::dotProduct(bsuv, QVector2D(vnode.unitVector()));
+//            rightDecay = QVector2D::dotProduct(next.bsuv, -QVector2D(vnode.unitVector()));
+//        }
+
+        inline float maxOffset() const { return vnode.length() / decayRate; }
+        VectorNode vnode;
+        float decayRate = 0;
+    };
+
+    Wavefront(const GuidePath &path);
+
+private:
+    QVector2D unitBisector(const VectorNode *vectorNode, const VectorNode *prevVectorNode) const;
+
+    QLinkedList<WFNode>           nodes;
+    QMultiMap<float, QLinkedListNode<WFNode>*> offsetMap;
+//        QLinkedListNode<node>
+    QPointF                     m_sourcePoint;
+};
+
+
+
+class GuidePathOffsetter
+{
+public:
+    GuidePathOffsetter();
+};
+
+#endif // GUIDEPATHOFFSETTER_H

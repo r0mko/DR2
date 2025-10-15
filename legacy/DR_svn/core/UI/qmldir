@@ -1,0 +1,10 @@
+module DataReactor.UI
+singleton Theme 1.0 qml/Theme/Theme.qml
+TexGyreHerosFont 1.0 qml/Theme/TexGyreHerosFont.qml
+RobotoFont 1.0 qml/Theme/RobotoFont.qml
+Exo2Font 1.0 qml/Theme/Exo2Font.qml
+UbuntuFont 1.0 qml/Theme/UbuntuFont.qml
+ListWidget 1.0 qml/ListWidget.qml
+ThinToolbar 1.0 qml/ThinToolbar.qml
+ThinToolButton 1.0 qml/ThinToolButton.qml
+plugin UI

@@ -1,0 +1,186 @@
+#ifndef VCHAIN_H
+#define VCHAIN_H
+#include <QObject>
+#include <QPolygonF>
+#include <QVector2D>
+#include <QtMath>
+#include <QVariant>
+#include <QLineF>
+#include <QSharedData>
+#include <QPainterPath>
+#include <QJSValue>
+#include "pathrunner.h"
+#include <QDebug>
+#include "guidepath_nodes.h"
+template <typename T> inline int sgn(T val) {
+    return (T(0) < val) - (val < T(0));
+}
+
+float norm_atan2( float y, float x );
+float fixNormAngle(float angle);
+float invSqrt(float x);
+
+
+class GuidePath
+{
+    Q_GADGET
+    Q_PROPERTY(qreal length READ length)
+    Q_PROPERTY(int count READ count)
+    Q_PROPERTY(bool empty READ isEmpty)
+    Q_PROPERTY(QPointF headPoint READ headPoint)
+    Q_PROPERTY(QPointF tailPoint READ tailPoint)
+
+    struct GuidePathData : public QSharedData
+    {
+        qreal                   length = 0;
+        QLinkedList<PathNode>   nodes;
+        PathIterator            iHead;
+        PathIterator            iTail;
+        QVariant                pathData;
+    };
+
+    friend class PathRunner;
+    friend QDataStream &operator<<(QDataStream &out, const GuidePath &p);
+    friend QDataStream &operator>>(QDataStream &in, GuidePath &p);
+
+public:
+    class Wavefront
+    {
+        friend class GuidePath;
+    public:
+        struct node
+        {
+            node() {}
+<<<<<<< .mine
+            node(const VectorNode *prevVectorNode, const VectorNode *vectorNode);
+            void setDecayRate(const node &next);
+
+            float maxOffset() const;
+
+=======
+            node(const VectorNode *prevVectorNode, const VectorNode *vectorNode);
+            void setDecayRate(const node &next)
+            {
+                leftDecay = QVector2D::dotProduct(bsuv, QVector2D(vnode.unitVector()));
+                rightDecay = QVector2D::dotProduct(next.bsuv, -QVector2D(vnode.unitVector()));
+            }
+
+            inline float maxOffset() const { return vnode.length() / (leftDecay + rightDecay); }
+>>>>>>> .r2725
+            QVector2D bsuv;  //bisect unit vector
+            VectorNode vnode;
+            float leftDecay = 0;
+            float rightDecay = 0;
+
+        };
+        Wavefront(const GuidePath &path);
+        inline qreal maxPositiveOffset() const { return offsetMap.upperBound(0).key(); }
+        inline qreal maxNegativeOffset() const { return offsetMap.lowerBound(0).key(); }
+        inline QPointF sourcePoint() const { return m_sourcePoint; }
+        GuidePath getOffset(qreal offset);
+
+
+    private:
+        void doOffset(qreal offset);
+        QLinkedList<node>           nodes;
+        QMultiMap<float, QLinkedListNode<node>*> offsetMap;
+//        QLinkedListNode<node>
+        QPointF                     m_sourcePoint;
+    };
+
+    GuidePath();
+    GuidePath(const GuidePath &other) : d (other.d) { }
+    GuidePath(const QPolygonF &polygon) { init(); setPolygon(polygon); }
+    ~GuidePath();
+
+    Q_INVOKABLE inline PathRunner setRunner(qreal pos) const { return PathRunner(this, pos); }
+
+    inline bool isEmpty() const { return d->nodes.size() < 3; }
+    inline bool isNull() const { return d == nullptr; }
+    inline qreal length() const { return d->length; }
+
+    inline int size() const { return d->nodes.size(); }
+    inline int count() const { return d->nodes.size() - 2; }
+
+    void trim(const PathIterator &after);
+
+    Q_INVOKABLE void appendPoint(const QPointF &point);
+    Q_INVOKABLE void appendPath(GuidePath other);
+    void appendNode(const VectorNode &node);
+    VectorNode createNextNode(const QPointF &nextPt) const;
+
+    Q_INVOKABLE void setPolygon(const QPolygonF &polygon);
+    Q_INVOKABLE GuidePath clone();
+    Q_INVOKABLE GuidePath part(qreal start, qreal end) const;
+    Q_INVOKABLE PathRunner findNearestPos(const QPointF &pos);
+    Q_INVOKABLE void clear();
+
+    Q_INVOKABLE QPainterPath wavefront_debug(qreal offset) const;
+    Q_INVOKABLE GuidePath smoothed(qreal radius, qreal precision, qreal startPos = 0, qreal endPos = -1) const;
+    Q_INVOKABLE GuidePath simplified(qreal threshold, qreal range) const;
+    Q_INVOKABLE GuidePath reversed() const;
+    Q_INVOKABLE GuidePath offseted(qreal offset, bool fast = false) const;
+    Q_INVOKABLE QPainterPath outline(qreal width, Qt::PenCapStyle caps) const;
+    Q_INVOKABLE QPainterPath toPath() const;
+    Q_INVOKABLE QPolygonF toPolygon() const;
+
+    Q_INVOKABLE QRectF boundingRect() const;
+
+    const VectorNode &firstVNode() const;
+    VectorNode &firstVNode();
+    const VectorNode &lastVNode() const;
+    VectorNode &lastVNode();
+
+    QPointF headPoint() const;
+    QPointF tailPoint() const;
+
+    VectorNode takeFirstVectorNode();
+    VectorNode takeLastVectorNode();
+
+
+    inline VertexNode &headNode() { return *static_cast<VertexNode*>(&d->nodes.first()); }
+    inline VertexNode &tailNode() { return *static_cast<VertexNode*>(&d->nodes.last()); }
+
+    Q_INVOKABLE inline const VertexNode &headNode() const { return *static_cast<const VertexNode*>(&d->nodes.first()); }
+    Q_INVOKABLE inline const VertexNode &tailNode() const { return *static_cast<const VertexNode*>(&d->nodes.last()); }
+
+    Q_INVOKABLE inline PathIterator begin() const { return d->nodes.begin(); }
+    Q_INVOKABLE inline PathIterator head() const { return d->nodes.begin(); }
+    Q_INVOKABLE inline PathIterator first() const { return d->iHead; }
+
+    Q_INVOKABLE inline PathIterator last() const { return d->iTail - 1; }
+    Q_INVOKABLE inline PathIterator tail() const { return d->iTail; }
+    Q_INVOKABLE inline PathIterator end() const { return d->nodes.end(); }
+
+    Q_INVOKABLE inline QVariant pathData() const { return d->pathData; }
+    Q_INVOKABLE inline void setPathData(QVariant pathData) { if (pathData.userType() == qMetaTypeId<QJSValue>()) pathData = pathData.value<QJSValue>().toVariant(); d->pathData = pathData; }
+
+    Q_INVOKABLE inline QVariant tailData() const { return tailNode().userData(); }
+    Q_INVOKABLE inline void setTailData(QVariant tailData) { tailNode().setUserData(tailData); }
+
+    Q_INVOKABLE inline QVariant headData() const { return headNode().userData(); }
+    Q_INVOKABLE inline void setHeadData(QVariant headData) { headNode().setUserData(headData); }
+
+
+    void dumpNodes() const;
+
+    inline bool operator ==(GuidePath other) const { return d == other.d; }
+    inline bool operator !=(GuidePath other) const { return d != other.d; }
+
+private:
+    qreal dotToPoint(const QPointF &point) const;
+    QExplicitlySharedDataPointer<GuidePathData> d;
+
+
+    GuidePath(GuidePathData *data);
+    void init();
+
+    qreal checkLength();
+    void prependNode(const VectorNode &node);
+    QPointF weightedAverage(qreal range, const QPointF &origin);
+};
+
+QDataStream &operator<<(QDataStream &out, const GuidePath &p);
+QDataStream &operator>>(QDataStream &in, GuidePath &p);
+
+#endif // VCHAIN_H

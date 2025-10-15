@@ -1,0 +1,26 @@
+module Dr.UI
+plugin ui
+singleton Theme 1.0 qml/Theme/Theme.qml
+TexGyreHerosFont 1.0 qml/Theme/TexGyreHerosFont.qml
+RobotoFont 1.0 qml/Theme/RobotoFont.qml
+Exo2Font 1.0 qml/Theme/Exo2Font.qml
+UbuntuFont 1.0 qml/Theme/UbuntuFont.qml
+ListWidget 1.0 qml/ListWidget.qml
+ThinToolbar 1.0 qml/ThinToolbar.qml
+TinySlider 1.0 qml/TinySlider.qml
+ThinToolButton 1.0 qml/ThinToolButton.qml
+TextAreaCompleter 1.0 qml/Completer.qml
+TextFieldCompleter 1.0 qml/TextFieldCompleter.qml
+EditableText 1.0 qml/EditableText.qml
+TextFieldEditor 1.0 qml/TextFieldEditor.qml
+JSObjectView 1.0 qml/JSObjectView.qml
+JSObjectEditor 1.0 qml/JSObjectEditor.qml
+JSObjectViewRow 1.0 qml/JSObjectViewRow.qml
+CaptionLabel 1.0 qml/CaptionLabel.qml
+NavigableTableViewColumn 1.0 qml/NavigableTableViewColumn.qml
+Sidebar 1.0 qml/Sidebar.qml
+SidebarPanel 1.0 qml/SidebarPanel.qml
+TinyButton 1.0 qml/TinyButton.qml
+VectorIconButton 1.0 qml/VectorIconButton.qml
+PicButton 1.0 qml/PicButton.qml
+AppWindow 1.0 qml/AppWindow.qml

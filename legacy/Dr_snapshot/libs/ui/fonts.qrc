@@ -1,0 +1,44 @@
+<RCC>
+    <qresource prefix="/">
+        <file>fonts/entypo.ttf</file>
+        <file>fonts/Exo2-Black.ttf</file>
+        <file>fonts/Exo2-BlackItalic.ttf</file>
+        <file>fonts/Exo2-Bold.ttf</file>
+        <file>fonts/Exo2-BoldItalic.ttf</file>
+        <file>fonts/Exo2-ExtraBold.ttf</file>
+        <file>fonts/Exo2-ExtraBoldItalic.ttf</file>
+        <file>fonts/Exo2-ExtraLight.ttf</file>
+        <file>fonts/Exo2-ExtraLightItalic.ttf</file>
+        <file>fonts/Exo2-Italic.ttf</file>
+        <file>fonts/Exo2-Light.ttf</file>
+        <file>fonts/Exo2-LightItalic.ttf</file>
+        <file>fonts/Exo2-Medium.ttf</file>
+        <file>fonts/Exo2-MediumItalic.ttf</file>
+        <file>fonts/Exo2-Regular.ttf</file>
+        <file>fonts/Exo2-SemiBold.ttf</file>
+        <file>fonts/Exo2-SemiBoldItalic.ttf</file>
+        <file>fonts/Exo2-Thin.ttf</file>
+        <file>fonts/Exo2-ThinItalic.ttf</file>
+        <file>fonts/FontAwesome.otf</file>
+        <file>fonts/Roboto-Black.ttf</file>
+        <file>fonts/Roboto-BlackItalic.ttf</file>
+        <file>fonts/Roboto-Bold.ttf</file>
+        <file>fonts/Roboto-BoldItalic.ttf</file>
+        <file>fonts/Roboto-Italic.ttf</file>
+        <file>fonts/Roboto-Light.ttf</file>
+        <file>fonts/Roboto-LightItalic.ttf</file>
+        <file>fonts/Roboto-Medium.ttf</file>
+        <file>fonts/Roboto-MediumItalic.ttf</file>
+        <file>fonts/Roboto-Regular.ttf</file>
+        <file>fonts/Roboto-Thin.ttf</file>
+        <file>fonts/Roboto-ThinItalic.ttf</file>
+        <file>fonts/texgyreheros-bold.otf</file>
+        <file>fonts/texgyreheros-bolditalic.otf</file>
+        <file>fonts/texgyreheros-italic.otf</file>
+        <file>fonts/texgyreheros-regular.otf</file>
+        <file>fonts/texgyreheroscn-bold.otf</file>
+        <file>fonts/texgyreheroscn-bolditalic.otf</file>
+        <file>fonts/texgyreheroscn-italic.otf</file>
+        <file>fonts/texgyreheroscn-regular.otf</file>
+    </qresource>
+</RCC>

@@ -1,0 +1,51 @@
+#include "guidepathoffsetter.h"
+
+GuidePathOffsetter::GuidePathOffsetter()
+{
+
+}
+
+
+
+Wavefront::Wavefront(const GuidePath &path)
+{
+    if (path.isEmpty())
+        return;
+    m_sourcePoint = path.headPoint();
+    auto i_firstPosEE = nodes.end().i;
+    auto i_firstNegEE = nodes.end().i;
+    float minPosOffset = INFINITY;
+    float minNegOffset = -INFINITY;
+    for (PathIterator i_vec = path.first(); i_vec != path.tail(); ++i_vec) {
+        PathIterator i_prevVec = i_vec - 1;
+        WFNode w;
+        w.vnode = *i_vec.vnode();
+        if (!i_prevVec->isVector()) {
+            nodes.append(w);
+            continue;
+        }
+        QVector2D ubs = unitBisector(i_prevVec.vnode(), i_vec.vnode());
+        w.decayRate = QVector2D::dotProduct(ubs, QVector2D(i_vec.vnode()->unitVector()));
+        nodes.last().decayRate += QVector2D::dotProduct(ubs, -QVector2D(i_prevVec.vnode()->unitVector()));
+        float offs = nodes.last().maxOffset();
+        auto i = nodes.insert(nodes.end(), w);
+        if (offs < 0 && offs > minNegOffset) {
+            minNegOffset = offs;
+            i_firstNegEE = i.i;
+        }
+        if (offs > 0 && offs < minPosOffset) {
+            minPosOffset = offs;
+            i_firstPosEE = i.i;
+        }
+    }
+//    qDebug() << "min pos offset:" << minPosOffset << i_firstPosEE->t;
+
+}
+
+QVector2D Wavefront::unitBisector(const VectorNode *vectorNode, const VectorNode *prevVectorNode) const
+{
+    qreal dot = QPointF::dotProduct(prevVectorNode->unitVector(), -vectorNode->unitVector());
+    qreal bs_proj = QPointF::dotProduct(prevVectorNode->unitVector(), vectorNode->normal());
+    qreal bsFactor = invSqrt((1 - dot) / 2) * sgn(bs_proj);
+    return bsFactor * QVector2D(prevVectorNode->unitVector() - vectorNode->unitVector()).normalized();
+}

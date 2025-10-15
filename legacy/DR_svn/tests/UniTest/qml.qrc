@@ -1,0 +1,16 @@
+<RCC>
+    <qresource prefix="/">
+        <file>main.qml</file>
+        <file>Targets/UniTargets.qml</file>
+        <file>Targets/qmldir</file>
+        <file>Targets/PropertyEditor.qml</file>
+        <file>Targets/Delegates/ColorDelegate.qml</file>
+        <file>Targets/Delegates/BoolDelegate.qml</file>
+        <file>Targets/Delegates/DoubleDelegate.qml</file>
+        <file>Targets/Delegates/IntDelegate.qml</file>
+        <file>Targets/PropertyEditorElement.qml</file>
+        <file>Targets/Delegates/PropertyEditorElementQObjectDelegate.qml</file>
+        <file>Targets/Delegates/StringDelegate.qml</file>
+        <file>Targets/Delegates/DelegatePropertyEditor.qml</file>
+    </qresource>
+</RCC>

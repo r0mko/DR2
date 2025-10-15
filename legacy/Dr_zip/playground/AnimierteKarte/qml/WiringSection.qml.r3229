@@ -1,0 +1,636 @@
+import QtQuick 2.5
+import QtQuick.Controls 1.3
+import QtQuick.Layouts 1.1
+import QtGraphicalEffects 1.0
+import QtQuick.Dialogs 1.2
+import QtQuick.Controls.Styles 1.2
+import QtQuick.Window 2.2
+
+import Dr.Graphics 1.0
+import Dr.UI 1.0
+import Dr.MetaGraph 1.0
+import Dr.Cartograph 1.0
+
+GuideView {
+    id: net_delegate
+
+    flags: VisualInstance.ItemIsSelectable
+    hoverEnabled: true
+    radius: 15
+
+
+
+    property var nodeData: object.datanode$data
+    objectName: object.nodeId
+    //    posPen.color: nodeData.
+    doubleWire: nodeData.type == "TrolleySection"
+
+    property alias segmentsModel: segments_model
+    property alias nodesModel: net_nodes
+
+    onSelectedChanged: {
+        if (selected) {
+            nets_panel.setCurrent(index)
+            nets_panel.addToSelection(index)
+        } else {
+            nets_panel.deselect(index)
+            clearHighlight()
+        }
+    }
+
+    onHoverEnter: {
+        hover_handle.visible = hover.modifiers & (Qt.ControlModifier | Qt.AltModifier)
+        if (hover_handle.visible) {
+            var r = findNearestPoint(hover.pos)
+            hover_handle.runner = r
+        }
+    }
+    onHoverMove: {
+        hover_handle.visible = hover.modifiers & (Qt.ControlModifier | Qt.AltModifier)
+        if (hover_handle.visible) {
+            var r = findNearestPoint(hover.pos)
+            hover_handle.runner = r
+        }
+        var rp = findAtPoint(hover.pos)
+        //        console.log(rp.sourceRunner.position, "net:", objectName, "seg:", rp.segment.uid)
+
+
+    }
+
+    onMousePress: {
+        if (mouse.modifiers) {
+            nets_panel.setCurrent(index)
+            nets_panel.selection.select(index)
+            mouse.accepted = false
+            if (mouse.modifiers & Qt.ControlModifier) {
+                if (doubleWire)
+                    editor.state = "extendTroll"
+                else
+                    editor.state = "extendTram"
+            } else if (mouse.modifiers & Qt.AltModifier) {
+                if (doubleWire)
+                    editor.state = "appendTroll"
+                else
+                    editor.state = "appendTram"
+
+            }
+        }
+    }
+
+
+    function gatherOut(nodeHandle) {
+        var ret = []
+        ret.push(nodeHandle)
+        nodeHandle.outNodes().forEach(function(handle) { ret = ret.concat(gatherOut(handle)) })
+        return ret
+    }
+
+    function gatherIn(nodeHandle) {
+        var ret = []
+        ret.push(nodeHandle)
+        nodeHandle.inNodes().forEach(function(handle) { ret = ret.concat(gatherIn(handle)) })
+        return ret
+    }
+
+    function split(mpos){
+        //                console.log( findAtPoint(mpos).segment.uid )
+        var reply = findAtPoint(mpos)
+        var parts = reply.segment.source.splitted(reply.sourceRunner.position)
+        var eh = segments_model.getHandleByUid(reply.segment.uid)
+        var headNode = eh.startNode
+        var tailNode = eh.endNode
+        var rightNodes = gatherOut(tailNode)
+        var leftNodes = gatherIn(headNode)
+        var ehdata = eh.getData()
+
+        var inBoundaries = handle.inEdges("BoundaryVertex")
+        var outBoundaries = handle.outEdges("BoundaryVertex")
+
+        //        removeSegment(reply.segment.uid)
+        var oldUid = eh.uid
+
+        eh.destroy()
+        var leftTailSeg = route.addGuide(handle, parts[0], ehdata.offset, headNode)
+        inBoundaries.forEach(function(edge) {
+            var ed  = edge.getData()
+            if (ed.to == oldUid) {
+                console.log("fix boundary %1".arg(edge.uid), "dest uid changed from %1 to %2".arg(oldUid).arg(leftTailSeg))
+                ed.to = leftTailSeg
+                edge.setData(ed)
+            }
+        })
+
+        var secHandle = createSection(object.datanode$data.type)
+
+        rightNodes.forEach(function(handle) {
+            var uids = []
+            handle.edges().forEach(function(edgeHandle) {
+                removeSegment(edgeHandle.uid)
+                uids.push(edgeHandle.uid)
+            })
+            handle.parent = secHandle
+        })
+
+        var rightHeadSeg = route.addGuide(secHandle, parts[1], ehdata.offset, undefined, tailNode)
+
+        outBoundaries.forEach(function(eh) {
+            gmodel.addEdge(secHandle, eh.endNode, eh.tag, eh.data)
+            eh.destroy()
+        })
+        gmodel.addEdge(handle, secHandle, "BoundaryVertex", {
+                           from: leftTailSeg,
+                           to: rightHeadSeg
+                       })
+    }
+
+
+    NodeChildrenModel {
+        id: net_nodes
+
+        property var connectionPorts:[]
+
+
+        onRowsAboutToBeRemoved: {
+            for (var i = first; i <= last; ++i) {
+                var l = getHandle(first)
+                if (l.nodeId.indexOf("cable_in") === 0) {
+                    connectionPorts[i].sign.destroy()
+                    connectionPorts[i].text.destroy()
+                }
+
+                console.log('removing node', l.nodeId)
+                l.edges().forEach(function(edgeHandle) {
+                    removeSegment(edgeHandle.uid)
+                })
+            }
+        }
+
+        onRowsInserted: {
+            for(var i = first; i <= last; ++i) {
+                var l = getHandle(i)
+                if (l.nodeId.indexOf("cable_in") === 0) {
+                    if (connectionPorts[i])
+                        console.log("label items for %1 already created".arg(i))
+                    else
+                        addLabel(l)
+                } else {
+                    console.log('added node', l.nodeId, l.edges())
+                    l.edges().forEach(function(edgeHandle) {
+                        var edgeData = edgeHandle.getData()
+                        addSegment(edgeHandle.uid, edgeData.guide, edgeData.offset)
+                    })
+                }
+            }
+        }
+
+        function addLabel(handle) {
+            var nd = handle.data
+            if (!hasSegment(nd.uid)) {
+                console.log("unable to construct labels: no segment", nd.uid)
+                return
+            }
+            console.log("Building labels for", handle)
+            var xs
+            var ys
+            if (doubleWire) {
+                xs = 10
+                ys = 7
+            } else {
+                xs = 5
+                ys = 7
+            }
+            var ystep = 15
+            var xstep = 8
+            var posScale = 0.65
+            var negScale = 0.7
+            var posSign = m_sceneBuilder.addItem("PathItem", {
+                                                     flags: VisualInstance.ItemIsSelectable
+                                                 },net_delegate)
+            posSign.setBlob(aux.shapes.filled13.data)
+            posSign.pen.color = '#000000'
+            posSign.pen.width = 1
+            posSign.pen.cosmetic = true
+            posSign.brush.color = nodeData.posColor
+            posSign.brush.style = Qt.SolidPattern
+            posSign.shapeType = ShapeInstance.Polygonal
+            posSign.flags = VisualInstance.ItemIsSelectable
+            posSign.scale = posScale
+            // -posSign.boundingRect.height / 2 * posSign.scale
+            bindItem(posSign, segment(nd.uid), Segment.OffsettedGuide, nd.position, -ys, xs , true, true)
+            //            bindItem(posSign, segment(nd.uid), Segment.PosResultGuide, nd.position, -posSign.boundingRect.width / 2 * posSign.scale, ys , true, true)
+            var posText = m_sceneBuilder.addItem("TextItem", {}, net_delegate)
+            posText.text = nodeData.posCableId
+            posText.color = "#000000"
+            posText.transformOriginPoint = Qt.point(0, posText.boundingRect.height / 2)
+            //            posText.transformOriginPoint = Qt.point(0, posText.boundingRect.width)
+            var bindposx
+            var bindposy
+            if (nd.leftSide) {
+                //                console.log("pos text left side", posText.boundingRect, posText.transformOriginPoint)
+                bindposx = posText.boundingRect.width + xstep + xs
+                bindposy = -3
+                posText.rotation = -90
+            } else {
+                bindposx = xstep + xs
+                bindposy = 3
+                posText.rotation = 90
+            }
+            var font = posText.font
+            font.family = "Roboto"
+            font.pixelSize = 15
+            posText.font = font
+
+
+            //            bindItem(posText, segment(nd.uid), Segment.PosResultGuide, nd.position, ys, 0, true, true)
+            //            bindItem(posText, segment(nd.uid), Segment.PosResultGuide, nd.position, bindpos,0, true, true)
+            bindItem(posText, segment(nd.uid), Segment.OffsettedGuide, nd.position, bindposy, bindposx, true, true)
+            posSign.onMouseRelease = cableInClicked
+            if (doubleWire) {
+                var negSign = m_sceneBuilder.addItem("PathItem", {
+                                                         flags: VisualInstance.ItemIsSelectable
+                                                     },net_delegate)
+                negSign.setBlob(aux.shapes.triangle36.data)
+                negSign.pen.color = '#000000'
+                negSign.pen.width = 1
+                negSign.pen.cosmetic = true
+                negSign.brush.color = nodeData.negColor
+                negSign.brush.style = Qt.SolidPattern
+                negSign.shapeType = ShapeInstance.Polygonal
+                negSign.scale = negScale
+                bindItem(negSign, segment(nd.uid), Segment.OffsettedGuide, nd.position, -ys - ystep, xs , true, true)
+                var negText = m_sceneBuilder.addItem("TextItem", {}, net_delegate)
+                negText.text = nodeData.negCableId
+                negText.color = "#000000"
+                negText.rotation = 90
+                negText.font = posText.font
+                negText.transformOriginPoint = Qt.point(0, negText.boundingRect.height / 2)
+                if (nd.leftSide) {
+                    //                    bindposx = negText.boundingRect.width + xstep + xs
+                    bindposy = -3
+                    negText.rotation = -90
+                } else {
+                    //                    bindposx = xstep + xs
+                    bindposy = 3
+                    negText.rotation = 90
+                }
+
+                bindItem(negText, segment(nd.uid), Segment.OffsettedGuide, nd.position, bindposy - ystep, bindposx , true, true)
+            }
+            connectionPorts[handle.rowId] = { sign: posSign, text: posText }
+        }
+
+
+        function cableInClicked() {
+            console.log(this, "clcikde", handle)
+            this.selected = true
+            cable_diup_loader.active = true
+        }
+
+        function addVertex(handle) {
+            var e_in = handle.inEdges()
+            var e_out= handle.outEdges()
+
+            if (handle.data.type == 'JunctionVertex') {
+                if (e_in.length < 1 || e_out < 1) {
+                    console.log("no junctions for", handle.mrl)
+                    return
+                }
+                e_in.forEach(function(ie) {
+                    e_out.forEach(function(oe) {
+                        console.log("Adding interlink %1 -> %2".arg(ie.uid).arg(oe.uid))
+                        net_delegate.addLink(ie.uid, oe.uid, GuideNode.JunctionType)
+                    })
+                })
+            }
+        }
+
+
+        function buildVertices() {
+            for (var i = 0; i < count; ++i) {
+                var h = getHandle(i)
+                console.log("Build vertex %1".arg(i), h)
+                if (h.nodeId.indexOf("cable_in") === 0)
+                    addLabel(h)
+                else
+                    addVertex(h)
+
+            }
+        }
+
+        onInEdgeAdded: {
+            console.log("Added in edge", edge.uid, getHandle(index).mrl)
+        }
+
+        onOutEdgeAdded: {
+            var handle = getHandle(index)
+            console.log("Added out edge", edge.uid, getHandle(index).mrl)
+            addOutVertex(handle)
+        }
+
+
+        //        onDataChanged: {
+        //            if (topLeft.row < 0)
+        //                return
+        //            var h = getHandle(topLeft.row)
+        //            if (!h)
+        //                return;
+        //            var e_in = h.inEdges()
+        //            var e_out= h.outEdges()
+
+        //            if (h.data.type == 'JunctionVertex') {
+        //                e_in.forEach(function(ie) {
+        //                    e_out.forEach(function(oe) {
+        //                        console.log("Adding interlink %1 -> %2".arg(ie.uid).arg(oe.uid))
+        //                        console.log(ie.uid, oe.uid, net_delegate.segment(ie.uid), net_delegate.segment(oe.uid))
+        //                        net_delegate.addLink(ie.uid, oe.uid, GuideNode.JunctionType)
+        //                    })
+        //                })
+
+        //            }
+        //        }
+    }
+
+    function highlightSegment(uid) {
+        highlight_segments.append({ uid: uid })
+    }
+
+    function clearHighlight() {
+        highlight_segments.clear()
+    }
+
+    onBoundItemChanged: {
+        badgesContainer.x = position.x
+        badgesContainer.y = position.y
+        badgesContainer.scale = scale
+//        badgesContainer.rotation = rotation
+
+        //        console.log("item bound", bindingId, position, rotation, scale)
+    }
+
+
+    property Item badgesContainer: ColumnLayout {
+        parent: m_scene
+        width: 60
+//        anchors.fill: parent
+//        rotation: 90
+        transformOrigin: Item.TopLeft
+
+        Rectangle {
+            border.color: "#000"
+            radius: 8
+            visible: a_special.checked
+            border.width: 2
+            width: parent.width
+            height: 20
+            color: "#b74600"
+
+            Text {
+                anchors.fill: parent
+                verticalAlignment: Text.AlignVCenter
+                horizontalAlignment: Text.AlignHCenter
+                renderType: Text.QtRendering
+                color: "#fff"
+                text: "Ос. сост."
+            }
+        }
+        Rectangle {
+            border.color: "#000"
+            radius: 8
+            border.width: 2
+            visible: a_reserve.checked
+            width: parent.width
+            height: 20
+            color: "#d570d5"
+            Text {
+                anchors.fill: parent
+                verticalAlignment: Text.AlignVCenter
+                horizontalAlignment: Text.AlignHCenter
+                renderType: Text.QtRendering
+                color: "#000"
+                text: "РЕЗЕРВ"
+            }
+        }
+
+        Rectangle {
+            border.color: "#000"
+            radius: 8
+            visible: a_gnd.checked
+            border.width: 2
+            width: parent.width
+            height: 20
+            color: "#539bff"
+            Text {
+                anchors.fill: parent
+                verticalAlignment: Text.AlignVCenter
+                horizontalAlignment: Text.AlignHCenter
+                renderType: Text.QtRendering
+                color: "#000"
+                text: "зазем"
+            }
+        }
+
+        Rectangle {
+            visible: a_repair.checked
+            border.color: "#000"
+            radius: 8
+            border.width: 2
+            width: parent.width
+            height: 20
+            color: "#55c45e"
+            Text {
+                anchors.fill: parent
+                verticalAlignment: Text.AlignVCenter
+                horizontalAlignment: Text.AlignHCenter
+                renderType: Text.QtRendering
+                color: "#000"
+                text: "РЕМОНТ"
+            }
+        }
+    }
+
+
+
+
+    Loader {
+        id: cable_diup_loader
+        active: false
+        property point pos
+
+
+        sourceComponent: Window {
+            id: cable_diup
+
+            width: 600
+            height: 400
+            Component.onCompleted: show()
+            onClosing: cable_diup_loader.active = false
+
+            ColumnLayout {
+                anchors.fill: parent
+                anchors.margins: 8
+                Label {
+                    text: 'Поле информационного сообщения'
+                }
+
+                TextArea {
+                    Layout.fillWidth: true
+                    Layout.fillHeight: false
+                    id: boundaryNote
+                    Layout.minimumHeight: 60
+                }
+
+                RowLayout {
+                    Layout.fillHeight: false
+                    Layout.fillWidth: true
+
+                    Button {
+                        action: a_repair
+                        text: "Ремонт"
+
+                    }
+                    Button {
+                        action: a_gnd
+                        text: "Зазем"
+
+                    }
+                    Button {
+                        action: a_reserve
+                        text: "Резерв"
+                        //                        action: a_reserve
+                    }
+                    Button {
+                        action: a_special
+                        text: "Ос. сост"
+                        //                        action: a_special
+                    }
+                    Button {
+                        id: b_close
+                        text: "Закрыть"
+                        onClicked: cable_diup.close()
+                    }
+                }
+            }
+        }
+    }
+    Action {
+        id: a_repair
+        checkable: true
+    }
+    Action {
+        id: a_gnd
+        checkable: true
+    }
+    Action {
+        id: a_special
+        checkable: true
+    }
+    Action {
+        id: a_reserve
+        checkable: true
+    }
+
+    ListModel {
+        id: highlight_segments
+        property var highlightItems: []
+        onRowsInserted: {
+            var data = get(first)
+            var seg = net_delegate.segment(data.uid)
+            var i = m_sceneBuilder.addItem("GuideStroke", {
+                                               smooth: 0,
+                                               precision: 0,
+                                               source: seg.source
+                                           })
+            i.pen.color = "#ff40aa"
+            i.pen.width = 2
+            i.pen.cosmetic = true
+            i.pen.catStyle = Qt.RoundCap
+            var hr = seg.source.headRunner()
+            var tr = seg.source.tailRunner()
+            var serif_h = creatist.create("PainterPath")
+            serif_h.moveTo(-15, -10)
+            serif_h.lineTo(0, 0)
+            serif_h.lineTo(-15, 10)
+
+            var ih = m_sceneBuilder.addItem("PathItem", {
+                                                path: serif_h,
+                                                pen: i.pen
+                                            })
+
+            var hbind = bindItem(ih, seg, Segment.SourceGuide, 0, 0, 0, true, true)
+
+            var serif_t = creatist.create("PainterPath")
+            serif_t.moveTo(-15, -10)
+            serif_t.lineTo(0, 0)
+            serif_t.lineTo(-15, 10)
+
+            var it = m_sceneBuilder.addItem("PathItem", {
+                                                path: serif_t,
+                                                pen: i.pen
+                                            })
+            var tbind = bindItem(it, seg, Segment.SourceGuide, seg.source.length, 0, 0, true, true)
+            highlightItems[data.uid] = { item: i, hserif: hbind, itemHead: ih, tserif: tbind, itemTail: it}
+        }
+
+        onRowsAboutToBeRemoved: {
+            console.log("removed highlight", first)
+            var data = get(first)
+            clearHL(highlightItems[data.uid])
+            highlightItems[data.uid] = undefined
+        }
+
+        function clearHL(i) {
+            unbindItem(i.hserif)
+            i.itemHead.destroy()
+            unbindItem(i.tserif)
+            i.itemTail.destroy()
+            i.item.destroy()
+        }
+
+        onModelReset: {
+            console.log("cleared highlight")
+            highlightItems.forEach(function(i) { clearHL(i) })
+            highlightItems = []
+        }
+    }
+
+    EdgeModel {
+        id: segments_model
+
+        property bool completed: false
+        onModelAboutToBeReset: completed = false
+        onModelReset: {
+            console.log("segs reset", mrl)
+            for (var i = 0; i < count; ++i) {
+                var h = getHandle(i)
+                buildSegment(h)
+            }
+            completed = true
+            nodesModel.buildVertices()
+        }
+
+        onDataChanged: {
+            var h = getHandle(topLeft.row)
+            var d = edgeData(topLeft.row)
+            segment(h.uid).offset = d.offset
+            updateGeometry()
+        }
+
+        onItemAdded: {
+            var h = getHandleByUid(uid)
+            buildSegment(h)
+        }
+
+        onEdgeRemoved: {
+            net_delegate.removeSegment(uid)
+            var sectionHandle = handle
+            console.log("Removed segment", uid, sectionHandle, sectionHandle.edges())
+
+        }
+
+        function buildSegment(h) {
+            var ed = h.getData()
+            var seg = net_delegate.addSegment(h.uid, ed.guide, ed.offset)
+            console.log("adding segment %1 to %2 length %3 offset %4".arg(h.uid).arg(net_delegate.objectName).arg(ed.guide.length).arg(ed.offset))
+        }
+    }
+}

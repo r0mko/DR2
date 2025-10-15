@@ -1,0 +1,14 @@
+<RCC>
+    <qresource prefix="/">
+        <file>main.qml</file>
+        <file>WirePainter.qml</file>
+        <file>Node.qml</file>
+        <file>WireSegment.qml</file>
+        <file>WireSegmentEdge.qml</file>
+        <file>Circuit.qml</file>
+        <file>WireFillet.qml</file>
+        <file>InfoPanel/WireDelegate.qml</file>
+        <file>CircuitDelegate/NodeHandle.qml</file>
+        <file>CircuitDelegate.qml</file>
+    </qresource>
+</RCC>

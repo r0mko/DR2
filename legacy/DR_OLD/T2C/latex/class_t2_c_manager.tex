@@ -1,0 +1,483 @@
+\hypertarget{class_t2_c_manager}{\section{Класс T2\-C\-Manager}
+\label{class_t2_c_manager}\index{T2\-C\-Manager@{T2\-C\-Manager}}
+}
+
+
+\hyperlink{class_t2_c_manager}{T2\-C\-Manager} -\/ модуль для работы с интерфейсом T2\-C.  
+
+
+
+
+{\ttfamily \#include $<$t2c.\-h$>$}
+
+Граф наследования\-:T2\-C\-Manager\-:\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[height=2.000000cm]{class_t2_c_manager}
+\end{center}
+\end{figure}
+\subsection*{Открытые слоты}
+\begin{DoxyCompactItemize}
+\item 
+void \hyperlink{class_t2_c_manager_a43508413b4a7d90407e14f1d5005a0b5}{set\-Encoding} (Q\-String arg)
+\begin{DoxyCompactList}\small\item\em Устанавливает кодировку для обмена с T2\-C. \end{DoxyCompactList}\item 
+void \hyperlink{class_t2_c_manager_aa696512a3ebc03c497629ca19f903cad}{set\-Immediate} (bool arg)
+\begin{DoxyCompactList}\small\item\em Управляет режимом немедленной записи изменений. \end{DoxyCompactList}\item 
+void \hyperlink{class_t2_c_manager_a1d3657acdeeacde9e155b6924211eff1}{set\-Raw\-Mode} (bool arg)
+\begin{DoxyCompactList}\small\item\em Управляет «сырым» режимом. \end{DoxyCompactList}\item 
+\hyperlink{struct_p_v}{P\-V} \hyperlink{class_t2_c_manager_a015b9e2a04b88549b7c48e84e66a8a51}{get\-P\-V} (int idf, bool force\-Cached=true)
+\begin{DoxyCompactList}\small\item\em Запрашивает единичную ПП из T2\-C. \end{DoxyCompactList}\item 
+Q\-Variant \hyperlink{class_t2_c_manager_a82411769e15724e64a85e55ef8719d11}{get\-Value} (int idf, bool force\-Cached=true)
+\begin{DoxyCompactList}\small\item\em Запрашивает значение единичной ПП из T2\-C. \end{DoxyCompactList}\item 
+\hyperlink{class_p_v_listener}{P\-V\-Listener} $\ast$ \hyperlink{class_t2_c_manager_aa06c49b005285d39e1f93eb0721f718b}{listen\-P\-Vs} (const Q\-List$<$ int $>$ \&idf\-List)
+\begin{DoxyCompactList}\small\item\em Создаёт объект-\/уведомитель об изменении значения процессных переменных из списка. \end{DoxyCompactList}\item 
+void \hyperlink{class_t2_c_manager_ac1c49cf0542525095c469e39dfefa10f}{send\-Raw\-Query} (const Q\-String \&query)
+\begin{DoxyCompactList}\small\item\em Посылка сырого запрос в T2\-C. \end{DoxyCompactList}\item 
+bool \hyperlink{class_t2_c_manager_a6f8148641b9e93f139c7be7545564256}{connect\-To\-T2\-C} (Q\-Host\-Address addr, quint16 port, bool verbose=false)
+\begin{DoxyCompactList}\small\item\em Пытается подключиьтся к T2\-C с указанными параметрами. \end{DoxyCompactList}\item 
+bool \hyperlink{class_t2_c_manager_ae2d1b84a8ce64cd625b377656e787879}{connect\-To\-T2\-C} (Q\-String addr, quint16 port, bool verbose=false)
+\begin{DoxyCompactList}\small\item\em Функция для удобства использования с Java\-Script. \end{DoxyCompactList}\item 
+Q\-List$<$ \hyperlink{struct_p_v}{P\-V} $>$ \hyperlink{class_t2_c_manager_a9e8e91c3360e804fa027c109809a088f}{get\-P\-Vs} (const Q\-List$<$ int $>$ \&idf\-List, bool subscribe=true)
+\begin{DoxyCompactList}\small\item\em Запрашивает список процессных переменных. \end{DoxyCompactList}\item 
+Q\-List$<$ Q\-Variant $>$ \hyperlink{class_t2_c_manager_a37bd99d5b51446cc6d5028e59b83ebc5}{get\-Values} (const Q\-List$<$ int $>$ \&idf\-List, bool subscribe=true)
+\begin{DoxyCompactList}\small\item\em Запрашивает процессные переменные из T2\-C по списку I\-D\-F. \end{DoxyCompactList}\item 
+void \hyperlink{class_t2_c_manager_a36ab4631895652156f9d5ce15ecc6838}{subscribe\-Values} (const Q\-List$<$ int $>$ \&idf\-List)
+\begin{DoxyCompactList}\small\item\em Подписывается на список ПП. \end{DoxyCompactList}\item 
+void \hyperlink{class_t2_c_manager_abb3969cc1325926859444dad50a3c726}{unsubscribe\-Values} (const Q\-List$<$ int $>$ \&idf\-List)
+\begin{DoxyCompactList}\small\item\em Отменяет подписку на список ПП. \end{DoxyCompactList}\item 
+void \hyperlink{class_t2_c_manager_a82120e14de0662c77327ef1e89194aa7}{update\-Value} (int idf, Q\-Variant new\-Value, const Q\-String \&status=Q\-String(\char`\"{}\char`\"{}))
+\begin{DoxyCompactList}\small\item\em Изменяет значение ПП. \end{DoxyCompactList}\item 
+Q\-String \hyperlink{class_t2_c_manager_a15dd60c314af86867dafa1933970a294}{read\-Raw\-Reply} (int timeout)
+\begin{DoxyCompactList}\small\item\em Читает одну строку ответа на запрос в «сыром» режиме. \end{DoxyCompactList}\item 
+bool \hyperlink{class_t2_c_manager_a4bd7aafc050239fcb437eae7a5856bf3}{has\-Raw\-Data} ()
+\begin{DoxyCompactList}\small\item\em Возвращает true, если в буфере сокета доступны данные для чтения, в противном случае возвращает false. \end{DoxyCompactList}\item 
+bool \hyperlink{class_t2_c_manager_a4bea191e0ae504c3c84c3576262d8a4f}{can\-Read\-Line} ()
+\begin{DoxyCompactList}\small\item\em Возвращает true, если в буфере сокета доступна 1 или более строка текста, в противном случае возвращает false. \end{DoxyCompactList}\item 
+\hypertarget{class_t2_c_manager_aa123d8be857be61226a9c3b2a571af51}{P\-V\-Cache \hyperlink{class_t2_c_manager_aa123d8be857be61226a9c3b2a571af51}{get\-Cache} () const }\label{class_t2_c_manager_aa123d8be857be61226a9c3b2a571af51}
+
+\begin{DoxyCompactList}\small\item\em Возвращает кэш процессных переменных. \end{DoxyCompactList}\item 
+bool \hyperlink{class_t2_c_manager_a78bc4a3396048f4b30d79e2c7830b7f9}{save\-Cache} (Q\-String filename) const 
+\begin{DoxyCompactList}\small\item\em Сохраняет кэш процессных переменных в текущей директории. \end{DoxyCompactList}\item 
+\hypertarget{class_t2_c_manager_a584d2dbf4e16755c60223e5af38eaf78}{bool {\bfseries load\-Cache} (Q\-String filename)}\label{class_t2_c_manager_a584d2dbf4e16755c60223e5af38eaf78}
+
+\item 
+void \hyperlink{class_t2_c_manager_af60d1c7c4da4e192d91c0fd2c86b852d}{commit} ()
+\begin{DoxyCompactList}\small\item\em Запись изменений. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\subsection*{Сигналы}
+\begin{DoxyCompactItemize}
+\item 
+\hypertarget{class_t2_c_manager_a011afb3a91c2dc08f052f65204dcf24d}{void \hyperlink{class_t2_c_manager_a011afb3a91c2dc08f052f65204dcf24d}{P\-Vupdated} (int idf)}\label{class_t2_c_manager_a011afb3a91c2dc08f052f65204dcf24d}
+
+\begin{DoxyCompactList}\small\item\em Сигнализирует об изменении ПП указанного I\-D\-F. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\subsection*{Открытые члены}
+\begin{DoxyCompactItemize}
+\item 
+\hypertarget{class_t2_c_manager_a5905cc8bc0534c5996b6d8b8d655f2db}{Q\-String \hyperlink{class_t2_c_manager_a5905cc8bc0534c5996b6d8b8d655f2db}{encoding} () const }\label{class_t2_c_manager_a5905cc8bc0534c5996b6d8b8d655f2db}
+
+\begin{DoxyCompactList}\small\item\em Возвращает кодировку, используемую для обмена с T2\-C. \end{DoxyCompactList}\item 
+\hypertarget{class_t2_c_manager_aa9af65c6157ef33db9afd964b5f3b058}{bool \hyperlink{class_t2_c_manager_aa9af65c6157ef33db9afd964b5f3b058}{immediate} () const }\label{class_t2_c_manager_aa9af65c6157ef33db9afd964b5f3b058}
+
+\begin{DoxyCompactList}\small\item\em Возвращает true, если включен режим немедленной записи при изменениях. \end{DoxyCompactList}\item 
+\hypertarget{class_t2_c_manager_ae60fa44cc5737d22d8e3aa2c8d012c43}{bool \hyperlink{class_t2_c_manager_ae60fa44cc5737d22d8e3aa2c8d012c43}{raw\-Mode} () const }\label{class_t2_c_manager_ae60fa44cc5737d22d8e3aa2c8d012c43}
+
+\begin{DoxyCompactList}\small\item\em Возвращает true, если включен «сырой» режим. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\subsection*{Открытые статические члены}
+\begin{DoxyCompactItemize}
+\item 
+static void \hyperlink{class_t2_c_manager_afd8d1c60c31904ee0d1e1bd45bd49164}{bind\-To\-Script\-Engine} (Q\-Script\-Engine $\ast$engine)
+\begin{DoxyCompactList}\small\item\em bind\-To\-Script\-Engine создаёт биндинг к Java\-Script-\/движку \end{DoxyCompactList}\item 
+\hypertarget{class_t2_c_manager_a0b248b9f75894efe6024e43def759e78}{static Q\-Script\-Value {\bfseries J\-S\-T2\-C\-Ctor} (Q\-Script\-Context $\ast$context, Q\-Script\-Engine $\ast$engine)}\label{class_t2_c_manager_a0b248b9f75894efe6024e43def759e78}
+
+\end{DoxyCompactItemize}
+\subsection*{Свойства}
+\begin{DoxyCompactItemize}
+\item 
+\hypertarget{class_t2_c_manager_aab5cd5149e7d3a3831c1298f095650d4}{uint {\bfseries sim\-Level}}\label{class_t2_c_manager_aab5cd5149e7d3a3831c1298f095650d4}
+
+\item 
+\hypertarget{class_t2_c_manager_a478a1d26f29db7db047e3e0749fd0642}{Q\-String {\bfseries encoding}}\label{class_t2_c_manager_a478a1d26f29db7db047e3e0749fd0642}
+
+\item 
+\hypertarget{class_t2_c_manager_a8ca8de7d555ab3ba5aa5ae3789f1107c}{bool {\bfseries immediate\-Update}}\label{class_t2_c_manager_a8ca8de7d555ab3ba5aa5ae3789f1107c}
+
+\item 
+\hypertarget{class_t2_c_manager_abb077bec336cee71d08d2a80277a0134}{bool \hyperlink{class_t2_c_manager_abb077bec336cee71d08d2a80277a0134}{raw\-Mode}}\label{class_t2_c_manager_abb077bec336cee71d08d2a80277a0134}
+
+\begin{DoxyCompactList}\small\item\em «Сырой режим» \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\subsection{Подробное описание}
+\hyperlink{class_t2_c_manager}{T2\-C\-Manager} -\/ модуль для работы с интерфейсом T2\-C. 
+
+Позволяет читать, записывать и подписываться на изменения процессных переменных в S\-C\-A\-D\-A Control\-Star 
+
+\subsection{Методы}
+\hypertarget{class_t2_c_manager_afd8d1c60c31904ee0d1e1bd45bd49164}{\index{T2\-C\-Manager@{T2\-C\-Manager}!bind\-To\-Script\-Engine@{bind\-To\-Script\-Engine}}
+\index{bind\-To\-Script\-Engine@{bind\-To\-Script\-Engine}!T2CManager@{T2\-C\-Manager}}
+\subsubsection[{bind\-To\-Script\-Engine}]{\setlength{\rightskip}{0pt plus 5cm}void T2\-C\-Manager\-::bind\-To\-Script\-Engine (
+\begin{DoxyParamCaption}
+\item[{Q\-Script\-Engine $\ast$}]{engine}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [static]}}}\label{class_t2_c_manager_afd8d1c60c31904ee0d1e1bd45bd49164}
+
+
+bind\-To\-Script\-Engine создаёт биндинг к Java\-Script-\/движку 
+
+
+\begin{DoxyParams}{Аргументы}
+{\em engine} & -\/ указатель на Q\-Script\-Engine \\
+\hline
+\end{DoxyParams}
+\hypertarget{class_t2_c_manager_a4bea191e0ae504c3c84c3576262d8a4f}{\index{T2\-C\-Manager@{T2\-C\-Manager}!can\-Read\-Line@{can\-Read\-Line}}
+\index{can\-Read\-Line@{can\-Read\-Line}!T2CManager@{T2\-C\-Manager}}
+\subsubsection[{can\-Read\-Line}]{\setlength{\rightskip}{0pt plus 5cm}bool T2\-C\-Manager\-::can\-Read\-Line (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [slot]}}}\label{class_t2_c_manager_a4bea191e0ae504c3c84c3576262d8a4f}
+
+
+Возвращает true, если в буфере сокета доступна 1 или более строка текста, в противном случае возвращает false. 
+
+Используется в «сыром» режиме T2\-C. \hypertarget{class_t2_c_manager_af60d1c7c4da4e192d91c0fd2c86b852d}{\index{T2\-C\-Manager@{T2\-C\-Manager}!commit@{commit}}
+\index{commit@{commit}!T2CManager@{T2\-C\-Manager}}
+\subsubsection[{commit}]{\setlength{\rightskip}{0pt plus 5cm}void T2\-C\-Manager\-::commit (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [slot]}}}\label{class_t2_c_manager_af60d1c7c4da4e192d91c0fd2c86b852d}
+
+
+Запись изменений. 
+
+Записывает в T2\-C изменения, сделанные с помощью \hyperlink{class_t2_c_manager_a82120e14de0662c77327ef1e89194aa7}{update\-Value()} в режиме отложенной записи (при установленном в false свойстве immediate\-Update). \begin{DoxySeeAlso}{См. также}
+\hyperlink{class_t2_c_manager_aa696512a3ebc03c497629ca19f903cad}{set\-Immediate()} 
+\end{DoxySeeAlso}
+\hypertarget{class_t2_c_manager_a6f8148641b9e93f139c7be7545564256}{\index{T2\-C\-Manager@{T2\-C\-Manager}!connect\-To\-T2\-C@{connect\-To\-T2\-C}}
+\index{connect\-To\-T2\-C@{connect\-To\-T2\-C}!T2CManager@{T2\-C\-Manager}}
+\subsubsection[{connect\-To\-T2\-C}]{\setlength{\rightskip}{0pt plus 5cm}bool T2\-C\-Manager\-::connect\-To\-T2\-C (
+\begin{DoxyParamCaption}
+\item[{Q\-Host\-Address}]{addr, }
+\item[{quint16}]{port, }
+\item[{bool}]{verbose = {\ttfamily false}}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [slot]}}}\label{class_t2_c_manager_a6f8148641b9e93f139c7be7545564256}
+
+
+Пытается подключиьтся к T2\-C с указанными параметрами. 
+
+
+\begin{DoxyParams}{Аргументы}
+{\em addr} & -\/ I\-P-\/адрес S\-C\-A\-D\-A-\/системы. \\
+\hline
+{\em port} & -\/ порт (обычно 47001). \\
+\hline
+{\em verbose} & -\/ флаг \char`\"{}молчаливого\char`\"{} режима. Если установлен в true, в stdout не выводятся сообщения о ходе подключения. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Возвращает}
+
+\end{DoxyReturn}
+\hypertarget{class_t2_c_manager_ae2d1b84a8ce64cd625b377656e787879}{\index{T2\-C\-Manager@{T2\-C\-Manager}!connect\-To\-T2\-C@{connect\-To\-T2\-C}}
+\index{connect\-To\-T2\-C@{connect\-To\-T2\-C}!T2CManager@{T2\-C\-Manager}}
+\subsubsection[{connect\-To\-T2\-C}]{\setlength{\rightskip}{0pt plus 5cm}bool T2\-C\-Manager\-::connect\-To\-T2\-C (
+\begin{DoxyParamCaption}
+\item[{Q\-String}]{addr, }
+\item[{quint16}]{port, }
+\item[{bool}]{verbose = {\ttfamily false}}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [slot]}}}\label{class_t2_c_manager_ae2d1b84a8ce64cd625b377656e787879}
+
+
+Функция для удобства использования с Java\-Script. 
+
+Пытается подключиьтся к T2\-C с указанными параметрами. 
+\begin{DoxyParams}{Аргументы}
+{\em addr} & -\/ I\-P-\/адрес S\-C\-A\-D\-A-\/системы, переданный строкой вида \char`\"{}10.\-0.\-0.\-1\char`\"{} \\
+\hline
+{\em port} & -\/ порт (обычно 47001). \\
+\hline
+{\em verbose} & -\/ флаг \char`\"{}молчаливого\char`\"{} режима. Если установлен в true, в stdout не выводятся сообщения о ходе подключения. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Возвращает}
+Результат попытки. Если подключение удалось, возвращает true. 
+\end{DoxyReturn}
+\hypertarget{class_t2_c_manager_a015b9e2a04b88549b7c48e84e66a8a51}{\index{T2\-C\-Manager@{T2\-C\-Manager}!get\-P\-V@{get\-P\-V}}
+\index{get\-P\-V@{get\-P\-V}!T2CManager@{T2\-C\-Manager}}
+\subsubsection[{get\-P\-V}]{\setlength{\rightskip}{0pt plus 5cm}{\bf P\-V} T2\-C\-Manager\-::get\-P\-V (
+\begin{DoxyParamCaption}
+\item[{int}]{idf, }
+\item[{bool}]{force\-Cached = {\ttfamily true}}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [slot]}}}\label{class_t2_c_manager_a015b9e2a04b88549b7c48e84e66a8a51}
+
+
+Запрашивает единичную ПП из T2\-C. 
+
+Подключение должно быть установлено. 
+\begin{DoxyParams}{Аргументы}
+{\em idf} & -\/ I\-D\-F процессной переменной. \\
+\hline
+{\em force\-Cached} & -\/ флаг запроса из кэша. По умолчанию установлен\-: если значение с таким I\-D\-F содержится в кэше, оно будет возвращено, иначе будет выполнен запрос. Если флаг установлен в false, будет выполнен запрос значения независимо от наличия элемента в кэше. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Возвращает}
+Процессная переменная. 
+\end{DoxyReturn}
+\hypertarget{class_t2_c_manager_a9e8e91c3360e804fa027c109809a088f}{\index{T2\-C\-Manager@{T2\-C\-Manager}!get\-P\-Vs@{get\-P\-Vs}}
+\index{get\-P\-Vs@{get\-P\-Vs}!T2CManager@{T2\-C\-Manager}}
+\subsubsection[{get\-P\-Vs}]{\setlength{\rightskip}{0pt plus 5cm}Q\-List$<$ {\bf P\-V} $>$ T2\-C\-Manager\-::get\-P\-Vs (
+\begin{DoxyParamCaption}
+\item[{const Q\-List$<$ int $>$ \&}]{idf\-List, }
+\item[{bool}]{subscribe = {\ttfamily true}}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [slot]}}}\label{class_t2_c_manager_a9e8e91c3360e804fa027c109809a088f}
+
+
+Запрашивает список процессных переменных. 
+
+Функция позволяет получить список значений ПП намного быстрее, чем множественные запросы к \hyperlink{class_t2_c_manager_a015b9e2a04b88549b7c48e84e66a8a51}{get\-P\-V()}. 
+\begin{DoxyParams}{Аргументы}
+{\em idf\-List} & -\/ список I\-D\-F. \\
+\hline
+{\em subscribe} & -\/ флаг подписки. Если установлен, дальнейшие обновления процессных переменных будут автоматически помещаться в кэш, и следующие запросы к ним будут происходить гораздо быстрее. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Возвращает}
+Список процессных переменных. 
+\end{DoxyReturn}
+\hypertarget{class_t2_c_manager_a82411769e15724e64a85e55ef8719d11}{\index{T2\-C\-Manager@{T2\-C\-Manager}!get\-Value@{get\-Value}}
+\index{get\-Value@{get\-Value}!T2CManager@{T2\-C\-Manager}}
+\subsubsection[{get\-Value}]{\setlength{\rightskip}{0pt plus 5cm}Q\-Variant T2\-C\-Manager\-::get\-Value (
+\begin{DoxyParamCaption}
+\item[{int}]{idf, }
+\item[{bool}]{force\-Cached = {\ttfamily true}}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [slot]}}}\label{class_t2_c_manager_a82411769e15724e64a85e55ef8719d11}
+
+
+Запрашивает значение единичной ПП из T2\-C. 
+
+Подключение должно быть установлено. Удобно использовать, когда не важен статус или метка времени ПП. 
+\begin{DoxyParams}{Аргументы}
+{\em idf} & -\/ I\-D\-F процессной переменной. \\
+\hline
+{\em force\-Cached} & -\/ флаг запроса из кэша. По умолчанию установлен\-: если значение с таким I\-D\-F содержится в кэше, оно будет возвращено, иначе будет выполнен запрос. Если флаг установлен в false, будет выполнен запрос значения независимо от наличия элемента в кэше. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Возвращает}
+Значение ПП. 
+\end{DoxyReturn}
+\hypertarget{class_t2_c_manager_a37bd99d5b51446cc6d5028e59b83ebc5}{\index{T2\-C\-Manager@{T2\-C\-Manager}!get\-Values@{get\-Values}}
+\index{get\-Values@{get\-Values}!T2CManager@{T2\-C\-Manager}}
+\subsubsection[{get\-Values}]{\setlength{\rightskip}{0pt plus 5cm}Q\-List$<$ Q\-Variant $>$ T2\-C\-Manager\-::get\-Values (
+\begin{DoxyParamCaption}
+\item[{const Q\-List$<$ int $>$ \&}]{idf\-List, }
+\item[{bool}]{subscribe = {\ttfamily true}}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [slot]}}}\label{class_t2_c_manager_a37bd99d5b51446cc6d5028e59b83ebc5}
+
+
+Запрашивает процессные переменные из T2\-C по списку I\-D\-F. 
+
+Функция позволяет получить список значений ПП намного быстрее, чем множественные запросы к \hyperlink{class_t2_c_manager_a015b9e2a04b88549b7c48e84e66a8a51}{get\-P\-V()}. 
+\begin{DoxyParams}{Аргументы}
+{\em idf\-List} & -\/ список I\-D\-F. \\
+\hline
+{\em subscribe} & -\/ флаг подписки. Если установлен, дальнейшие обновления процессных переменных будут автоматически помещаться в кэш, и следующие запросы к ним будут происходить гораздо быстрее. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Возвращает}
+Список значений процессных переменных. 
+\end{DoxyReturn}
+\hypertarget{class_t2_c_manager_a4bd7aafc050239fcb437eae7a5856bf3}{\index{T2\-C\-Manager@{T2\-C\-Manager}!has\-Raw\-Data@{has\-Raw\-Data}}
+\index{has\-Raw\-Data@{has\-Raw\-Data}!T2CManager@{T2\-C\-Manager}}
+\subsubsection[{has\-Raw\-Data}]{\setlength{\rightskip}{0pt plus 5cm}bool T2\-C\-Manager\-::has\-Raw\-Data (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [slot]}}}\label{class_t2_c_manager_a4bd7aafc050239fcb437eae7a5856bf3}
+
+
+Возвращает true, если в буфере сокета доступны данные для чтения, в противном случае возвращает false. 
+
+Используется в «сыром» режиме T2\-C. \hypertarget{class_t2_c_manager_aa06c49b005285d39e1f93eb0721f718b}{\index{T2\-C\-Manager@{T2\-C\-Manager}!listen\-P\-Vs@{listen\-P\-Vs}}
+\index{listen\-P\-Vs@{listen\-P\-Vs}!T2CManager@{T2\-C\-Manager}}
+\subsubsection[{listen\-P\-Vs}]{\setlength{\rightskip}{0pt plus 5cm}{\bf P\-V\-Listener} $\ast$ T2\-C\-Manager\-::listen\-P\-Vs (
+\begin{DoxyParamCaption}
+\item[{const Q\-List$<$ int $>$ \&}]{idf\-List}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [slot]}}}\label{class_t2_c_manager_aa06c49b005285d39e1f93eb0721f718b}
+
+
+Создаёт объект-\/уведомитель об изменении значения процессных переменных из списка. 
+
+
+\begin{DoxyParams}{Аргументы}
+{\em idf\-List} & -\/ список I\-D\-F для прослушки. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Возвращает}
+Указатель на созданный объект-\/уведомитель. 
+\end{DoxyReturn}
+\hypertarget{class_t2_c_manager_a15dd60c314af86867dafa1933970a294}{\index{T2\-C\-Manager@{T2\-C\-Manager}!read\-Raw\-Reply@{read\-Raw\-Reply}}
+\index{read\-Raw\-Reply@{read\-Raw\-Reply}!T2CManager@{T2\-C\-Manager}}
+\subsubsection[{read\-Raw\-Reply}]{\setlength{\rightskip}{0pt plus 5cm}Q\-String T2\-C\-Manager\-::read\-Raw\-Reply (
+\begin{DoxyParamCaption}
+\item[{int}]{timeout}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [slot]}}}\label{class_t2_c_manager_a15dd60c314af86867dafa1933970a294}
+
+
+Читает одну строку ответа на запрос в «сыром» режиме. 
+
+Если полная строка не получена за указанное время, функция возвращает все данные, доступные в буфере сокета. 
+\begin{DoxyParams}{Аргументы}
+{\em timeout} & — таймаут на чтение строки. \\
+\hline
+\end{DoxyParams}
+\hypertarget{class_t2_c_manager_a78bc4a3396048f4b30d79e2c7830b7f9}{\index{T2\-C\-Manager@{T2\-C\-Manager}!save\-Cache@{save\-Cache}}
+\index{save\-Cache@{save\-Cache}!T2CManager@{T2\-C\-Manager}}
+\subsubsection[{save\-Cache}]{\setlength{\rightskip}{0pt plus 5cm}bool T2\-C\-Manager\-::save\-Cache (
+\begin{DoxyParamCaption}
+\item[{Q\-String}]{filename}
+\end{DoxyParamCaption}
+) const\hspace{0.3cm}{\ttfamily [slot]}}}\label{class_t2_c_manager_a78bc4a3396048f4b30d79e2c7830b7f9}
+
+
+Сохраняет кэш процессных переменных в текущей директории. 
+
+
+\begin{DoxyParams}{Аргументы}
+{\em filename} & — имя файла. \\
+\hline
+\end{DoxyParams}
+\hypertarget{class_t2_c_manager_ac1c49cf0542525095c469e39dfefa10f}{\index{T2\-C\-Manager@{T2\-C\-Manager}!send\-Raw\-Query@{send\-Raw\-Query}}
+\index{send\-Raw\-Query@{send\-Raw\-Query}!T2CManager@{T2\-C\-Manager}}
+\subsubsection[{send\-Raw\-Query}]{\setlength{\rightskip}{0pt plus 5cm}void T2\-C\-Manager\-::send\-Raw\-Query (
+\begin{DoxyParamCaption}
+\item[{const Q\-String \&}]{query}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [slot]}}}\label{class_t2_c_manager_ac1c49cf0542525095c469e39dfefa10f}
+
+
+Посылка сырого запрос в T2\-C. 
+
+Свойство \char`\"{}raw\-Mode\char`\"{} должно быть установлено в true. 
+\begin{DoxyParams}{Аргументы}
+{\em query} & -\/ текст запроса. \\
+\hline
+\end{DoxyParams}
+\hypertarget{class_t2_c_manager_a43508413b4a7d90407e14f1d5005a0b5}{\index{T2\-C\-Manager@{T2\-C\-Manager}!set\-Encoding@{set\-Encoding}}
+\index{set\-Encoding@{set\-Encoding}!T2CManager@{T2\-C\-Manager}}
+\subsubsection[{set\-Encoding}]{\setlength{\rightskip}{0pt plus 5cm}void T2\-C\-Manager\-::set\-Encoding (
+\begin{DoxyParamCaption}
+\item[{Q\-String}]{arg}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [slot]}}}\label{class_t2_c_manager_a43508413b4a7d90407e14f1d5005a0b5}
+
+
+Устанавливает кодировку для обмена с T2\-C. 
+
+
+\begin{DoxyParams}{Аргументы}
+{\em arg} & — обозначение кодировки, обычно \char`\"{}\-I\-S\-O8859-\/5\char`\"{}. \\
+\hline
+\end{DoxyParams}
+\begin{DoxySeeAlso}{См. также}
+encoding() 
+\end{DoxySeeAlso}
+\hypertarget{class_t2_c_manager_aa696512a3ebc03c497629ca19f903cad}{\index{T2\-C\-Manager@{T2\-C\-Manager}!set\-Immediate@{set\-Immediate}}
+\index{set\-Immediate@{set\-Immediate}!T2CManager@{T2\-C\-Manager}}
+\subsubsection[{set\-Immediate}]{\setlength{\rightskip}{0pt plus 5cm}void T2\-C\-Manager\-::set\-Immediate (
+\begin{DoxyParamCaption}
+\item[{bool}]{arg}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [slot]}}}\label{class_t2_c_manager_aa696512a3ebc03c497629ca19f903cad}
+
+
+Управляет режимом немедленной записи изменений. 
+
+Если флаг установлен в true, то при изменении процессной переменной функциями \hyperlink{class_t2_c_manager_a82120e14de0662c77327ef1e89194aa7}{update\-Value()} команда на запись в T2\-C выдаётся немедленно. Если false, то изменения значений процессных переменных записываются в кэш, а фактическая запись происходит только при вызове \hyperlink{class_t2_c_manager_af60d1c7c4da4e192d91c0fd2c86b852d}{commit()}. \begin{DoxySeeAlso}{См. также}
+\hyperlink{class_t2_c_manager_af60d1c7c4da4e192d91c0fd2c86b852d}{commit()} 
+
+\hyperlink{class_t2_c_manager_a82120e14de0662c77327ef1e89194aa7}{update\-Value()} 
+\end{DoxySeeAlso}
+\hypertarget{class_t2_c_manager_a1d3657acdeeacde9e155b6924211eff1}{\index{T2\-C\-Manager@{T2\-C\-Manager}!set\-Raw\-Mode@{set\-Raw\-Mode}}
+\index{set\-Raw\-Mode@{set\-Raw\-Mode}!T2CManager@{T2\-C\-Manager}}
+\subsubsection[{set\-Raw\-Mode}]{\setlength{\rightskip}{0pt plus 5cm}void T2\-C\-Manager\-::set\-Raw\-Mode (
+\begin{DoxyParamCaption}
+\item[{bool}]{arg}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [slot]}}}\label{class_t2_c_manager_a1d3657acdeeacde9e155b6924211eff1}
+
+
+Управляет «сырым» режимом. 
+
+
+\begin{DoxyParams}{Аргументы}
+{\em arg} & \\
+\hline
+\end{DoxyParams}
+\hypertarget{class_t2_c_manager_a36ab4631895652156f9d5ce15ecc6838}{\index{T2\-C\-Manager@{T2\-C\-Manager}!subscribe\-Values@{subscribe\-Values}}
+\index{subscribe\-Values@{subscribe\-Values}!T2CManager@{T2\-C\-Manager}}
+\subsubsection[{subscribe\-Values}]{\setlength{\rightskip}{0pt plus 5cm}void T2\-C\-Manager\-::subscribe\-Values (
+\begin{DoxyParamCaption}
+\item[{const Q\-List$<$ int $>$ \&}]{idf\-List}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [slot]}}}\label{class_t2_c_manager_a36ab4631895652156f9d5ce15ecc6838}
+
+
+Подписывается на список ПП. 
+
+Удобна тем, что не дожидается возвращения всех значений. Данные накапливаются в кэше по мере поступления. 
+\begin{DoxyParams}{Аргументы}
+{\em idf\-List} & -\/ список I\-D\-F. \\
+\hline
+\end{DoxyParams}
+\hypertarget{class_t2_c_manager_abb3969cc1325926859444dad50a3c726}{\index{T2\-C\-Manager@{T2\-C\-Manager}!unsubscribe\-Values@{unsubscribe\-Values}}
+\index{unsubscribe\-Values@{unsubscribe\-Values}!T2CManager@{T2\-C\-Manager}}
+\subsubsection[{unsubscribe\-Values}]{\setlength{\rightskip}{0pt plus 5cm}void T2\-C\-Manager\-::unsubscribe\-Values (
+\begin{DoxyParamCaption}
+\item[{const Q\-List$<$ int $>$ \&}]{idf\-List}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [slot]}}}\label{class_t2_c_manager_abb3969cc1325926859444dad50a3c726}
+
+
+Отменяет подписку на список ПП. 
+
+
+\begin{DoxyParams}{Аргументы}
+{\em idf\-List} & -\/ список I\-D\-F. \\
+\hline
+\end{DoxyParams}
+\hypertarget{class_t2_c_manager_a82120e14de0662c77327ef1e89194aa7}{\index{T2\-C\-Manager@{T2\-C\-Manager}!update\-Value@{update\-Value}}
+\index{update\-Value@{update\-Value}!T2CManager@{T2\-C\-Manager}}
+\subsubsection[{update\-Value}]{\setlength{\rightskip}{0pt plus 5cm}void T2\-C\-Manager\-::update\-Value (
+\begin{DoxyParamCaption}
+\item[{int}]{idf, }
+\item[{Q\-Variant}]{new\-Value, }
+\item[{const Q\-String \&}]{status = {\ttfamily QString(\char`\"{}\char`\"{})}}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [slot]}}}\label{class_t2_c_manager_a82120e14de0662c77327ef1e89194aa7}
+
+
+Изменяет значение ПП. 
+
+Записывает новое значение процессной переменной. Если включен режим immediate\-Update (свойство установлено в true), то запись происходит немедленно, в противном случае новое значение переменной заносится в кэш, а обновление значения фактически происходит при вызове \hyperlink{class_t2_c_manager_af60d1c7c4da4e192d91c0fd2c86b852d}{commit()}. Если процессная переменная ранее не запрашивалась, то есть неизвестен её внутренний тип в S\-C\-A\-D\-A-\/системе, то происходит одиночный запрос. В случае, если необходимо изменить значение очень большого количества ПП, большое количество одиночных запросов может занять значительное время. Во избежание этого необходимо запросить типы этих переменных посредством вызова \hyperlink{class_t2_c_manager_a37bd99d5b51446cc6d5028e59b83ebc5}{get\-Values()} или \hyperlink{class_t2_c_manager_a9e8e91c3360e804fa027c109809a088f}{get\-P\-Vs()}, пренебрегая возвращаемым значениям. Типы процессных переменных запишутся в кэш, и при записи будут запрашиваться из него, что значительно ускорит запись. Использование отложенной записи так же значительно ускоряет выполнение этой функции. 
+\begin{DoxyParams}{Аргументы}
+{\em idf} & — I\-D\-F изменяемой процессной переменной \\
+\hline
+{\em new\-Value} & — новое значение ПП \\
+\hline
+{\em status} & — строка статуса в нотации Control\-Star, например, \char`\"{}\-A\-B\-Z\-N\char`\"{}. {\bfseries Внимание\-:} в режиме отложенной записи значение данного параметра игнорируется! \\
+\hline
+\end{DoxyParams}
+
+
+Объявления и описания членов классов находятся в файлах\-:\begin{DoxyCompactItemize}
+\item 
+t2c.\-h\item 
+moc\-\_\-t2c.\-cpp\item 
+t2c.\-cpp\end{DoxyCompactItemize}

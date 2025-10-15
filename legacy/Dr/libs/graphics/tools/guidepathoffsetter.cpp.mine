@@ -1,0 +1,7 @@
+#include "guidepathoffsetter.h"
+
+GuidePathOffsetter::GuidePathOffsetter()
+{
+
+}
+

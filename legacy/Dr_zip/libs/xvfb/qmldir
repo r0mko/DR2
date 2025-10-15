@@ -1,0 +1,3 @@
+module Dr.Xvfb
+plugin xvfb
+Xvfb 1.0 qml/Xvfb.qml

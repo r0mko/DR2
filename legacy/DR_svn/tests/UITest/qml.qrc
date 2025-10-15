@@ -1,0 +1,20 @@
+<RCC>
+    <qresource prefix="/">
+        <file>palette.qml</file>
+        <file>MyDelegate.qml</file>
+        <file>MetaPropertyDelegate.qml</file>
+        <file>main.qml</file>
+        <file>ColorCell.qml</file>
+        <file>Delegates/formelement/Integer.qml</file>
+        <file>Delegates/formelement/TextElement.qml</file>
+        <file>Delegates/formelement/Float.qml</file>
+        <file>Delegates/formelement/Boolean.qml</file>
+        <file>Delegates/formelement/QString.qml</file>
+        <file>Delegates/formelement/QColor.qml</file>
+        <file>Delegates/formelement/ListInfo.qml</file>
+        <file>Delegates/PaletteSliderStyle.qml</file>
+        <file>Delegates/PopupWindow.qml</file>
+        <file>Delegates/ColorEditor.qml</file>
+        <file>uni.qml</file>
+    </qresource>
+</RCC>

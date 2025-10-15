@@ -1,0 +1,292 @@
+%token T_AND "&"                T_AND_AND "&&"              T_AND_EQ "&="
+%token T_BREAK "break"          T_CASE "case"               T_CATCH "catch"
+%token T_COLON ":"              T_COMMA ";"                 T_CONTINUE "continue"
+%token T_DEFAULT "default"      T_DELETE "delete"           T_DIVIDE_ "/"
+%token T_DIVIDE_EQ "/="         T_DO "do"                   T_DOT "."
+%token T_ELSE "else"            T_EQ "="                    T_EQ_EQ "=="
+%token T_EQ_EQ_EQ "==="         T_FINALLY "finally"         T_FOR "for"
+%token T_FUNCTION "function"    T_GE ">="                   T_GT ">"
+%token T_GT_GT ">>"             T_GT_GT_EQ ">>="            T_GT_GT_GT ">>>"
+%token T_GT_GT_GT_EQ ">>>="     T_IDENTIFIER "identifier"   T_IF "if"
+%token T_IN "in"                T_INSTANCEOF "instanceof"   T_LBRACE "{"
+%token T_LBRACKET "["           T_LE "<="                   T_LPAREN "("
+%token T_LT "<"                 T_LT_LT "<<"                T_LT_LT_EQ "<<="
+%token T_MINUS "-"              T_MINUS_EQ "-="             T_MINUS_MINUS "--"
+%token T_NEW "new"              T_NOT "!"                   T_NOT_EQ "!="
+%token T_NOT_EQ_EQ "!=="        T_NUMERIC_LITERAL "numeric literal"     T_OR "|"
+%token T_OR_EQ "|="             T_OR_OR "||"                T_PLUS "+"
+%token T_PLUS_EQ "+="           T_PLUS_PLUS "++"            T_QUESTION "?"
+%token T_RBRACE "}"             T_RBRACKET "]"              T_REMAINDER "%"
+%token T_REMAINDER_EQ "%="      T_RETURN "return"           T_RPAREN ")"
+%token T_SEMICOLON ";"          T_AUTOMATIC_SEMICOLON       T_STAR "*"
+%token T_STAR_EQ "*="           T_STRING_LITERAL "string literal"
+%token T_SWITCH "switch"        T_THIS "this"               T_THROW "throw"
+%token T_TILDE "~"              T_TRY "try"                 T_TYPEOF "typeof"
+%token T_VAR "var"              T_VOID "void"               T_WHILE "while"
+%token T_WITH "with"            T_XOR "^"                   T_XOR_EQ "^="
+%token T_NULL "null"            T_TRUE "true"               T_FALSE "false"
+%token T_CONST "const"
+%token T_DEBUGGER "debugger"
+%token T_RESERVED_WORD "reserved word"
+
+PrimaryExpression: T_THIS ;
+PrimaryExpression: T_IDENTIFIER ;
+PrimaryExpression: T_NULL ;
+PrimaryExpression: T_TRUE ;
+PrimaryExpression: T_FALSE ;
+PrimaryExpression: T_NUMERIC_LITERAL ;
+PrimaryExpression: T_STRING_LITERAL ;
+PrimaryExpression: T_DIVIDE_ ;
+PrimaryExpression: T_DIVIDE_EQ ;
+PrimaryExpression: T_LBRACKET ElementList T_RBRACKET ;
+PrimaryExpression: T_LBRACE T_RBRACE ;
+PrimaryExpression: T_LBRACE PropertyNameAndValueListOpt T_RBRACE ;
+PrimaryExpression: T_LBRACE PropertyNameAndValueList T_COMMA T_RBRACE ;
+PrimaryExpression: T_LPAREN Expression T_RPAREN ;
+PropertyNameAndValueList: PropertyName T_COLON AssignmentExpression ;
+PropertyNameAndValueList: PropertyNameAndValueList T_COMMA PropertyName T_COLON AssignmentExpression ;
+PropertyName: T_IDENTIFIER ;
+PropertyName: T_STRING_LITERAL ;
+PropertyName: T_NUMERIC_LITERAL ;
+PropertyName: ReservedIdentifier ;
+ReservedIdentifier: T_BREAK ;
+ReservedIdentifier: T_CASE ;
+ReservedIdentifier: T_CATCH ;
+ReservedIdentifier: T_CONTINUE ;
+ReservedIdentifier: T_DEFAULT ;
+ReservedIdentifier: T_DELETE ;
+ReservedIdentifier: T_DO ;
+ReservedIdentifier: T_ELSE ;
+ReservedIdentifier: T_FALSE ;
+ReservedIdentifier: T_FINALLY ;
+ReservedIdentifier: T_FOR ;
+ReservedIdentifier: T_FUNCTION ;
+ReservedIdentifier: T_IF ;
+ReservedIdentifier: T_IN ;
+ReservedIdentifier: T_INSTANCEOF ;
+ReservedIdentifier: T_NEW ;
+ReservedIdentifier: T_NULL ;
+ReservedIdentifier: T_RETURN ;
+ReservedIdentifier: T_SWITCH ;
+ReservedIdentifier: T_THIS ;
+ReservedIdentifier: T_THROW ;
+ReservedIdentifier: T_TRUE ;
+ReservedIdentifier: T_TRY ;
+ReservedIdentifier: T_TYPEOF ;
+ReservedIdentifier: T_VAR ;
+ReservedIdentifier: T_VOID ;
+ReservedIdentifier: T_WHILE ;
+ReservedIdentifier: T_CONST ;
+ReservedIdentifier: T_DEBUGGER ;
+ReservedIdentifier: T_RESERVED_WORD ;
+ReservedIdentifier: T_WITH ;
+PropertyIdentifier: T_IDENTIFIER ;
+PropertyIdentifier: ReservedIdentifier ;
+MemberExpression: PrimaryExpression ;
+MemberExpression: FunctionExpression ;
+MemberExpression: MemberExpression T_LBRACKET Expression T_RBRACKET ;
+MemberExpression: MemberExpression T_DOT PropertyIdentifier ;
+MemberExpression: T_NEW MemberExpression Arguments ;
+NewExpression: MemberExpression ;
+NewExpression: T_NEW NewExpression ;
+CallExpression: MemberExpression Arguments ;
+CallExpression: CallExpression Arguments ;
+CallExpression: CallExpression T_LBRACKET Expression T_RBRACKET ;
+CallExpression: CallExpression T_DOT PropertyIdentifier ;
+Arguments: T_LPAREN T_RPAREN ;
+Arguments: T_LPAREN ArgumentList T_RPAREN ;
+ArgumentList: AssignmentExpression ;
+ArgumentList: ArgumentList T_COMMA AssignmentExpression ;
+LeftHandSideExpression: NewExpression ;
+LeftHandSideExpression: CallExpression ;
+PostfixExpression: LeftHandSideExpression ;
+PostfixExpression: LeftHandSideExpression T_PLUS_PLUS ;
+PostfixExpression: LeftHandSideExpression T_MINUS_MINUS ;
+UnaryExpression: PostfixExpression ;
+UnaryExpression: T_DELETE UnaryExpression ;
+UnaryExpression: T_VOID UnaryExpression ;
+UnaryExpression: T_TYPEOF UnaryExpression ;
+UnaryExpression: T_PLUS_PLUS UnaryExpression ;
+UnaryExpression: T_MINUS_MINUS UnaryExpression ;
+UnaryExpression: T_PLUS UnaryExpression ;
+UnaryExpression: T_MINUS UnaryExpression ;
+UnaryExpression: T_TILDE UnaryExpression ;
+UnaryExpression: T_NOT UnaryExpression ;
+MultiplicativeExpression: UnaryExpression ;
+MultiplicativeExpression: MultiplicativeExpression T_STAR UnaryExpression ;
+MultiplicativeExpression: MultiplicativeExpression T_DIVIDE_ UnaryExpression ;
+MultiplicativeExpression: MultiplicativeExpression T_REMAINDER UnaryExpression ;
+AdditiveExpression: MultiplicativeExpression ;
+AdditiveExpression: AdditiveExpression T_PLUS MultiplicativeExpression ;
+AdditiveExpression: AdditiveExpression T_MINUS MultiplicativeExpression ;
+ShiftExpression: AdditiveExpression ;
+ShiftExpression: ShiftExpression T_LT_LT AdditiveExpression ;
+ShiftExpression: ShiftExpression T_GT_GT AdditiveExpression ;
+ShiftExpression: ShiftExpression T_GT_GT_GT AdditiveExpression ;
+RelationalExpression: ShiftExpression ;
+RelationalExpression: RelationalExpression T_LT ShiftExpression ;
+RelationalExpression: RelationalExpression T_GT ShiftExpression ;
+RelationalExpression: RelationalExpression T_LE ShiftExpression ;
+RelationalExpression: RelationalExpression T_GE ShiftExpression ;
+RelationalExpression: RelationalExpression T_INSTANCEOF ShiftExpression ;
+RelationalExpression: RelationalExpression T_IN ShiftExpression ;
+RelationalExpressionNotIn: ShiftExpression ;
+RelationalExpressionNotIn: RelationalExpressionNotIn T_LT ShiftExpression ;
+RelationalExpressionNotIn: RelationalExpressionNotIn T_GT ShiftExpression ;
+RelationalExpressionNotIn: RelationalExpressionNotIn T_LE ShiftExpression ;
+RelationalExpressionNotIn: RelationalExpressionNotIn T_GE ShiftExpression ;
+RelationalExpressionNotIn: RelationalExpressionNotIn T_INSTANCEOF ShiftExpression ;
+EqualityExpression: RelationalExpression ;
+EqualityExpression: EqualityExpression T_EQ_EQ RelationalExpression ;
+EqualityExpression: EqualityExpression T_NOT_EQ RelationalExpression ;
+EqualityExpression: EqualityExpression T_EQ_EQ_EQ RelationalExpression ;
+EqualityExpression: EqualityExpression T_NOT_EQ_EQ RelationalExpression ;
+EqualityExpressionNotIn: RelationalExpressionNotIn ;
+EqualityExpressionNotIn: EqualityExpressionNotIn T_EQ_EQ RelationalExpressionNotIn ;
+EqualityExpressionNotIn: EqualityExpressionNotIn T_NOT_EQ RelationalExpressionNotIn;
+EqualityExpressionNotIn: EqualityExpressionNotIn T_EQ_EQ_EQ RelationalExpressionNotIn ;
+EqualityExpressionNotIn: EqualityExpressionNotIn T_NOT_EQ_EQ RelationalExpressionNotIn ;
+BitwiseANDExpression: EqualityExpression ;
+BitwiseANDExpression: BitwiseANDExpression T_AND EqualityExpression ;
+BitwiseANDExpressionNotIn: EqualityExpressionNotIn ;
+BitwiseANDExpressionNotIn: BitwiseANDExpressionNotIn T_AND EqualityExpressionNotIn ;
+BitwiseXORExpression: BitwiseANDExpression ;
+BitwiseXORExpression: BitwiseXORExpression T_XOR BitwiseANDExpression ;
+BitwiseXORExpressionNotIn: BitwiseANDExpressionNotIn ;
+BitwiseXORExpressionNotIn: BitwiseXORExpressionNotIn T_XOR BitwiseANDExpressionNotIn ;
+BitwiseORExpression: BitwiseXORExpression ;
+BitwiseORExpression: BitwiseORExpression T_OR BitwiseXORExpression ;
+BitwiseORExpressionNotIn: BitwiseXORExpressionNotIn ;
+BitwiseORExpressionNotIn: BitwiseORExpressionNotIn T_OR BitwiseXORExpressionNotIn ;
+LogicalANDExpression: BitwiseORExpression ;
+LogicalANDExpression: LogicalANDExpression T_AND_AND BitwiseORExpression ;
+LogicalANDExpressionNotIn: BitwiseORExpressionNotIn ;
+LogicalANDExpressionNotIn: LogicalANDExpressionNotIn T_AND_AND BitwiseORExpressionNotIn ;
+LogicalORExpression: LogicalANDExpression ;
+LogicalORExpression: LogicalORExpression T_OR_OR LogicalANDExpression ;
+LogicalORExpressionNotIn: LogicalANDExpressionNotIn ;
+LogicalORExpressionNotIn: LogicalORExpressionNotIn T_OR_OR LogicalANDExpressionNotIn ;
+ConditionalExpression: LogicalORExpression ;
+ConditionalExpression: LogicalORExpression T_QUESTION AssignmentExpression T_COLON AssignmentExpression ;
+ConditionalExpressionNotIn: LogicalORExpressionNotIn ;
+ConditionalExpressionNotIn: LogicalORExpressionNotIn T_QUESTION AssignmentExpressionNotIn T_COLON AssignmentExpressionNotIn ;
+AssignmentExpression: ConditionalExpression ;
+AssignmentExpression: LeftHandSideExpression AssignmentOperator AssignmentExpression ;
+AssignmentExpressionNotIn: ConditionalExpressionNotIn ;
+AssignmentExpressionNotIn: LeftHandSideExpression AssignmentOperator AssignmentExpressionNotIn ;
+AssignmentOperator: T_EQ ;
+AssignmentOperator: T_STAR_EQ ;
+AssignmentOperator: T_DIVIDE_EQ ;
+AssignmentOperator: T_REMAINDER_EQ ;
+AssignmentOperator: T_PLUS_EQ ;
+AssignmentOperator: T_MINUS_EQ ;
+AssignmentOperator: T_LT_LT_EQ ;
+AssignmentOperator: T_GT_GT_EQ ;
+AssignmentOperator: T_GT_GT_GT_EQ ;
+AssignmentOperator: T_AND_EQ ;
+AssignmentOperator: T_XOR_EQ ;
+AssignmentOperator: T_OR_EQ ;
+Expression: AssignmentExpression ;
+Expression: Expression T_COMMA AssignmentExpression ;
+ExpressionOpt: ;
+ExpressionOpt: Expression ;
+ExpressionNotIn: AssignmentExpressionNotIn ;
+ExpressionNotIn: ExpressionNotIn T_COMMA AssignmentExpressionNotIn ;
+ExpressionNotInOpt: ;
+ExpressionNotInOpt: ExpressionNotIn ;
+Statement: Block ;
+Statement: VariableStatement ;
+Statement: EmptyStatement ;
+Statement: ExpressionStatement ;
+Statement: IfStatement ;
+Statement: IterationStatement ;
+Statement: ContinueStatement ;
+Statement: BreakStatement ;
+Statement: ReturnStatement ;
+Statement: WithStatement ;
+Statement: LabelledStatement ;
+Statement: SwitchStatement ;
+Statement: ThrowStatement ;
+Statement: TryStatement ;
+Statement: DebuggerStatement ;
+Block: T_LBRACE StatementListOpt T_RBRACE ;
+StatementList: Statement ;
+StatementList: StatementList Statement ;
+StatementListOpt: ;
+StatementListOpt: StatementList ;
+VariableStatement: VariableDeclarationKind VariableDeclarationList T_AUTOMATIC_SEMICOLON ;  -- automatic semicolon
+VariableStatement: VariableDeclarationKind VariableDeclarationList T_SEMICOLON ;
+VariableDeclarationKind: T_CONST ;
+VariableDeclarationKind: T_VAR ;
+VariableDeclarationList: VariableDeclaration ;
+VariableDeclarationList: VariableDeclarationList T_COMMA VariableDeclaration ;
+VariableDeclarationListNotIn: VariableDeclarationNotIn ;
+VariableDeclarationListNotIn: VariableDeclarationListNotIn T_COMMA VariableDeclarationNotIn ;
+VariableDeclaration: T_IDENTIFIER InitialiserOpt ;
+VariableDeclarationNotIn: T_IDENTIFIER InitialiserNotInOpt ;
+Initialiser: T_EQ AssignmentExpression ;
+InitialiserOpt: ;
+InitialiserOpt: Initialiser ;
+InitialiserNotIn: T_EQ AssignmentExpressionNotIn ;
+InitialiserNotInOpt: ;
+InitialiserNotInOpt: InitialiserNotIn ;
+EmptyStatement: T_SEMICOLON ;
+ExpressionStatement: Expression T_AUTOMATIC_SEMICOLON ;  -- automatic semicolon
+ExpressionStatement: Expression T_SEMICOLON ;
+IfStatement: T_IF T_LPAREN Expression T_RPAREN Statement T_ELSE Statement ;
+IfStatement: T_IF T_LPAREN Expression T_RPAREN Statement ;
+IterationStatement: T_DO Statement T_WHILE T_LPAREN Expression T_RPAREN T_AUTOMATIC_SEMICOLON ;  -- automatic semicolon
+IterationStatement: T_DO Statement T_WHILE T_LPAREN Expression T_RPAREN T_SEMICOLON ;
+IterationStatement: T_WHILE T_LPAREN Expression T_RPAREN Statement ;
+IterationStatement: T_FOR T_LPAREN ExpressionNotInOpt T_SEMICOLON ExpressionOpt T_SEMICOLON ExpressionOpt T_RPAREN Statement ;
+IterationStatement: T_FOR T_LPAREN T_VAR VariableDeclarationListNotIn T_SEMICOLON ExpressionOpt T_SEMICOLON ExpressionOpt T_RPAREN Statement ;
+IterationStatement: T_FOR T_LPAREN LeftHandSideExpression T_IN Expression T_RPAREN Statement ;
+IterationStatement: T_FOR T_LPAREN T_VAR VariableDeclarationNotIn T_IN Expression T_RPAREN Statement ;
+ContinueStatement: T_CONTINUE T_AUTOMATIC_SEMICOLON ;  -- automatic semicolon
+ContinueStatement: T_CONTINUE T_SEMICOLON ;
+ContinueStatement: T_CONTINUE T_IDENTIFIER T_AUTOMATIC_SEMICOLON ;  -- automatic semicolon
+ContinueStatement: T_CONTINUE T_IDENTIFIER T_SEMICOLON ;
+BreakStatement: T_BREAK T_AUTOMATIC_SEMICOLON ;  -- automatic semicolon
+BreakStatement: T_BREAK T_SEMICOLON ;
+BreakStatement: T_BREAK T_IDENTIFIER T_AUTOMATIC_SEMICOLON ;  -- automatic semicolon
+BreakStatement: T_BREAK T_IDENTIFIER T_SEMICOLON ;
+ReturnStatement: T_RETURN ExpressionOpt T_AUTOMATIC_SEMICOLON ;  -- automatic semicolon
+ReturnStatement: T_RETURN ExpressionOpt T_SEMICOLON ;
+WithStatement: T_WITH T_LPAREN Expression T_RPAREN Statement ;
+SwitchStatement: T_SWITCH T_LPAREN Expression T_RPAREN CaseBlock ;
+CaseBlock: T_LBRACE CaseClausesOpt T_RBRACE ;
+CaseBlock: T_LBRACE CaseClausesOpt DefaultClause CaseClausesOpt T_RBRACE ;
+CaseClauses: CaseClause ;
+CaseClauses: CaseClauses CaseClause ;
+CaseClausesOpt: ;
+CaseClausesOpt: CaseClauses ;
+CaseClause: T_CASE Expression T_COLON StatementListOpt ;
+DefaultClause: T_DEFAULT T_COLON StatementListOpt ;
+LabelledStatement: T_IDENTIFIER T_COLON Statement ;
+ThrowStatement: T_THROW Expression T_AUTOMATIC_SEMICOLON ;  -- automatic semicolon
+ThrowStatement: T_THROW Expression T_SEMICOLON ;
+TryStatement: T_TRY Block Catch ;
+TryStatement: T_TRY Block Finally ;
+TryStatement: T_TRY Block Catch Finally ;
+Catch: T_CATCH T_LPAREN T_IDENTIFIER T_RPAREN Block ;
+Finally: T_FINALLY Block ;
+DebuggerStatement: T_DEBUGGER T_AUTOMATIC_SEMICOLON ; -- automatic semicolon
+DebuggerStatement: T_DEBUGGER T_SEMICOLON ;
+FunctionDeclaration: T_FUNCTION T_IDENTIFIER T_LPAREN FormalParameterListOpt T_RPAREN T_LBRACE FunctionBodyOpt T_RBRACE ;
+FunctionExpression: T_FUNCTION IdentifierOpt T_LPAREN FormalParameterListOpt T_RPAREN T_LBRACE FunctionBodyOpt T_RBRACE ;
+FormalParameterList: T_IDENTIFIER ;
+FormalParameterList: FormalParameterList T_COMMA T_IDENTIFIER ;
+FormalParameterListOpt: ;
+FormalParameterListOpt: FormalParameterList ;
+FunctionBodyOpt: ;
+FunctionBodyOpt: FunctionBody ;
+FunctionBody: SourceElements ;
+Program: SourceElements ;
+SourceElements: SourceElement ;
+SourceElements: SourceElements SourceElement ;
+SourceElement: Statement ;
+SourceElement: FunctionDeclaration ;
+IdentifierOpt: ;
+IdentifierOpt: T_IDENTIFIER ;
+PropertyNameAndValueListOpt: ;
+PropertyNameAndValueListOpt: PropertyNameAndValueList ;

@@ -1,0 +1,8 @@
+<RCC>
+    <qresource prefix="/">
+        <file>qml/Theme/Theme.qml</file>
+        <file>qml/Theme/TexGyreHerosFont.qml</file>
+        <file>qml/Theme/Exo2Font.qml</file>
+        <file>qml/Theme/RobotoFont.qml</file>
+    </qresource>
+</RCC>

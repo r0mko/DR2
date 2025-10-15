@@ -1,0 +1,7 @@
+module Dr.Graphics
+plugin graphics
+typeinfo graphics.qmltypes
+DrawArea 1.0 qml/DrawArea.qml
+BackgroundGrid 1.0 qml/BackgroundGrid.qml
+SelectShaderEffect 1.0 qml/SelectShaderEffect.qml
+CheckerboardShaderEffect 1.0 qml/CheckerboardShaderEffect.qml

@@ -1,0 +1,27 @@
+<RCC>
+    <qresource prefix="/">
+        <file>qml/delegates/ItemDelegate.qml</file>
+        <file>qml/delegates/MethodDelegate.qml</file>
+        <file>qml/delegates/PropertyDelegate.qml</file>
+        <file>qml/testrpc/PeerList.qml</file>
+        <file>qml/testrpc/PeerListItem.qml</file>
+        <file>qml/testrpc/PuppetDelegate.qml</file>
+        <file>qml/testrpc/TestObject.qml</file>
+        <file>qml/theme/Theme.qml</file>
+        <file>qml/widgets/AddPeerForm.qml</file>
+        <file>qml/widgets/Dial.qml</file>
+        <file>qml/widgets/FormLine.qml</file>
+        <file>qml/widgets/GlossyButton.qml</file>
+        <file>qml/widgets/InfoPanel.qml</file>
+        <file>qml/widgets/ListWidget.qml</file>
+        <file>qml/widgets/LogMsgForm.qml</file>
+        <file>qml/widgets/LogViewer.qml</file>
+        <file>qml/widgets/ThinToolbar.qml</file>
+        <file>qml/widgets/ThinToolButton.qml</file>
+        <file>qml/Dummi.qml</file>
+        <file>qml/main.qml</file>
+        <file>qml/test.qml</file>
+        <file>qml/topo.qml</file>
+        <file>qml/theme/qmldir</file>
+    </qresource>
+</RCC>

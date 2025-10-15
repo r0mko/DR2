@@ -1,0 +1,6 @@
+<RCC>
+    <qresource prefix="/">
+        <file>main.qml</file>
+        <file>PropertyDelegate.qml</file>
+    </qresource>
+</RCC>

@@ -1,0 +1,3 @@
+module DataReactor.Log
+plugin Logger
+

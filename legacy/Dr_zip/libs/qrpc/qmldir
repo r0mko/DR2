@@ -1,0 +1,2 @@
+module Dr.QRPC
+plugin qrpc

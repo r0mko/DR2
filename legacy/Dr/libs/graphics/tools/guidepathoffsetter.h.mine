@@ -1,0 +1,30 @@
+#ifndef GUIDEPATHOFFSETTER_H
+#define GUIDEPATHOFFSETTER_H
+#include "guidepath.h"
+
+class GuidePathOffsetter
+{
+public:
+    class Wavefront
+    {
+        friend class GuidePath;
+        friend class GuidePathOffsetter;
+    public:
+        struct node
+        {
+            node() {}
+            node(const VectorNode *vectorNode, const VectorNode *nextVectorNode);
+            qreal maxOffset(const node &prevNode) const;
+            QVector2D bsuv;  //bisect unit vector
+            VectorNode vnode;
+
+        };
+
+    private:
+        QLinkedList<node> nodes;
+    };
+
+    GuidePathOffsetter();
+};
+
+#endif // GUIDEPATHOFFSETTER_H

@@ -1,0 +1,59 @@
+\hypertarget{struct_p_v}{\section{Структура P\-V}
+\label{struct_p_v}\index{P\-V@{P\-V}}
+}
+
+
+Структура, хранящая информацию о процессной переменной  
+
+
+
+
+{\ttfamily \#include $<$t2c.\-h$>$}
+
+\subsection*{Открытые атрибуты}
+\begin{DoxyCompactItemize}
+\item 
+\hypertarget{struct_p_v_abf7a2b104815f063f098b3f12cb5efb4}{Q\-Date\-Time \hyperlink{struct_p_v_abf7a2b104815f063f098b3f12cb5efb4}{time}}\label{struct_p_v_abf7a2b104815f063f098b3f12cb5efb4}
+
+\begin{DoxyCompactList}\small\item\em Метка времени \end{DoxyCompactList}\item 
+\hypertarget{struct_p_v_a1e4608363410a01ca0b73d61fb898656}{Q\-Variant \hyperlink{struct_p_v_a1e4608363410a01ca0b73d61fb898656}{value}}\label{struct_p_v_a1e4608363410a01ca0b73d61fb898656}
+
+\begin{DoxyCompactList}\small\item\em Значение \end{DoxyCompactList}\item 
+\hypertarget{struct_p_v_a02551777c1773cd8d67195be4ba18653}{quint16 \hyperlink{struct_p_v_a02551777c1773cd8d67195be4ba18653}{status}}\label{struct_p_v_a02551777c1773cd8d67195be4ba18653}
+
+\begin{DoxyCompactList}\small\item\em Статус \end{DoxyCompactList}\item 
+\hypertarget{struct_p_v_a8929ed79170ed8f87817646de10799fe}{Q\-Byte\-Array \hyperlink{struct_p_v_a8929ed79170ed8f87817646de10799fe}{i\-Type}}\label{struct_p_v_a8929ed79170ed8f87817646de10799fe}
+
+\begin{DoxyCompactList}\small\item\em Текстовое обозначение типа данных в Control\-Star. \end{DoxyCompactList}\item 
+bool \hyperlink{struct_p_v_a865f200b8c4ea2cb89894e7133245bb7}{subscribed}
+\begin{DoxyCompactList}\small\item\em Флаг подписки. \end{DoxyCompactList}\item 
+bool \hyperlink{struct_p_v_ab53638c0e66c5b2b86cea564f02e2947}{changed}
+\begin{DoxyCompactList}\small\item\em Флаг изменения. \end{DoxyCompactList}\item 
+\hypertarget{struct_p_v_ab0718ffead2b27c26125e83475de016b}{\hyperlink{class_p_v_listener}{P\-V\-Listener} $\ast$ \hyperlink{struct_p_v_ab0718ffead2b27c26125e83475de016b}{listener}}\label{struct_p_v_ab0718ffead2b27c26125e83475de016b}
+
+\begin{DoxyCompactList}\small\item\em Указатель на объект listener. \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\subsection{Подробное описание}
+Структура, хранящая информацию о процессной переменной 
+
+\subsection{Данные класса}
+\hypertarget{struct_p_v_ab53638c0e66c5b2b86cea564f02e2947}{\index{P\-V@{P\-V}!changed@{changed}}
+\index{changed@{changed}!PV@{P\-V}}
+\subsubsection[{changed}]{\setlength{\rightskip}{0pt plus 5cm}bool P\-V\-::changed}}\label{struct_p_v_ab53638c0e66c5b2b86cea564f02e2947}
+
+
+Флаг изменения. 
+
+Установлен, если значение кем-\/то изменено, и необходима синхронизация со S\-C\-A\-D\-A. \hypertarget{struct_p_v_a865f200b8c4ea2cb89894e7133245bb7}{\index{P\-V@{P\-V}!subscribed@{subscribed}}
+\index{subscribed@{subscribed}!PV@{P\-V}}
+\subsubsection[{subscribed}]{\setlength{\rightskip}{0pt plus 5cm}bool P\-V\-::subscribed}}\label{struct_p_v_a865f200b8c4ea2cb89894e7133245bb7}
+
+
+Флаг подписки. 
+
+Установлен, если значение этой ПП обновляется автоматически. 
+
+Объявления и описания членов структуры находятся в файле\-:\begin{DoxyCompactItemize}
+\item 
+t2c.\-h\end{DoxyCompactItemize}

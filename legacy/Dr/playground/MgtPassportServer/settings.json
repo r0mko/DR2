@@ -1,0 +1,1634 @@
+{
+    "server": {
+        "port": 33667
+    },
+    "db": {
+        "host1": "192.168.1.240",
+        "host2": "127.0.0.1",
+        "port": 3306,
+        "database": "mgt2",
+        "user": "root",
+        "password": "QAZwsxEDC123",
+        "reopenDatabaseDelay": 1000,
+        "connectOptionsString": ""
+    },
+    "dataSources": {
+        "cn_area": {
+            "editable": true,
+            "indexField": "id",
+            "readableField": "name",
+            "revision": "201504121300",
+            "comment": "no problems here",
+            "fields": [
+                {
+                    "name": "id",
+                    "caption": "id",
+                    "hidden": true,
+                    "filter": "none"
+                },
+                {
+                    "name": "name",
+                    "caption": "Наименование района КС",
+                    "hidden": false,
+                    "control": "text",
+                    "formDelegate": "text",
+                    "tableDelegate": "text",
+                    "filter": "string",
+                    "width": 400
+                },
+                {
+                    "name": "sites",
+                    "caption": "sites",
+                    "hidden": true,
+                    "filter": "none"
+                }
+            ],
+            "methods": {
+                "COUNT": "SELECT COUNT(`id`) FROM `area` WHERE 1=1",
+                "GET": "SELECT * from (select a.id, a.name , count(s.id) as sites from area a left join site s on a.id=s.area_id group by a.id ) a WHERE 1=1",
+                "DEL": "var q = 'DELETE FROM `area` WHERE `id` = :id;'; var b = db.msg; var r1 = db.dbOperation( q, b ); r1;",
+                "ADD": "var q = 'INSERT INTO `area` ( `name` ) VALUES ( :name );'; var b = db.msg; var r1 = db.dbOperation( q, b ); r1;",
+                "UPD": "var q = 'UPDATE `area` SET `name` = :name WHERE `id` = :id;'; var b = db.msg; var r1 = db.dbOperation( q, b ); r1;",
+                "DELo": "DELETE FROM `area` WHERE `id` = ?;",
+                "ADDo": "INSERT INTO `area` ( `name` ) VALUES ( ? );",
+                "UPDo": "UPDATE `area` SET `name` = ? WHERE `id` = ?;"
+            }
+        },
+        "omkum_p1": {
+            "editable": false,
+            "indexField": "UM_CODE",
+            "readableField": "UM_NAMES",
+            "revision": "201504121300",
+            "comment": "no problems here",
+            "fields": [
+                {
+                    "name": "UM_CODE",
+                    "caption": "Уникальный код улицы",
+                    "hidden": false,
+                    "tableDelegate": "int",
+                    "filter": "string",
+                    "width": 217
+                },
+                {
+                    "name": "UM_NAMEF",
+                    "caption": "Полное наименование улицы",
+                    "hidden": false,
+                    "control": "text",
+                    "tableDelegate": "text",
+                    "filter": "string",
+                    "width": 272
+                },
+                {
+                    "name": "UM_NAMES",
+                    "caption": "Сокращённое наименование улицы",
+                    "hidden": false,
+                    "control": "text",
+                    "tableDelegate": "text",
+                    "filter": "string",
+                    "width": 280
+                },
+                {
+                    "name": "UM_TRANS",
+                    "caption": "Наименование транслит",
+                    "hidden": false,
+                    "control": "text",
+                    "tableDelegate": "text",
+                    "filter": "string",
+                    "width": 250
+                },
+                {
+                    "name": "UM_TYPE",
+                    "caption": "Код из второго раздела ОМК УМ",
+                    "hidden": false,
+                    "control": "text",
+                    "tableDelegate": "int",
+                    "filter": "string"
+                },
+                {
+                    "name": "UM_TM",
+                    "caption": "Код из ОМК ТМ",
+                    "hidden": false,
+                    "control": "text",
+                    "tableDelegate": "text",
+                    "filter": "string"
+                },
+                {
+                    "name": "UM_TE",
+                    "caption": "Код района / поселения из ОМК ТЕ",
+                    "hidden": false,
+                    "control": "text",
+                    "tableDelegate": "text",
+                    "filter": "string"
+                },
+                {
+                    "name": "UM_KLADR",
+                    "caption": "Код записи из КЛАДР",
+                    "hidden": false,
+                    "control": "text",
+                    "tableDelegate": "text",
+                    "filter": "string",
+                    "width": 186
+                }
+            ],
+            "methods": {
+                "COUNT": "SELECT COUNT(`UM_CODE`) FROM `mgt2`.`omkum_p1` WHERE 1=1",
+                "GET": "SELECT * FROM `mgt2`.`omkum_p1` WHERE 1=1"
+            }
+        },
+        "omkum_p2": {
+            "editable": false,
+            "indexField": "UM_TYPEC",
+            "readableField": "UM_TYPEN",
+            "revision": "201504121300",
+            "comment": "no problems here",
+            "fields": [
+                {
+                    "name": "UM_TYPEC",
+                    "caption": "Уникальный код вида улицы",
+                    "hidden": false,
+                    "control": "text",
+                    "tableDelegate": "int",
+                    "filter": "string",
+                    "width": 250
+                },
+                {
+                    "name": "UM_TYPEN",
+                    "caption": "Полное наименование вида улицы",
+                    "hidden": false,
+                    "control": "text",
+                    "tableDelegate": "text",
+                    "filter": "string",
+                    "width": 426
+                },
+                {
+                    "name": "UM_STAT",
+                    "caption": "UM_STAT",
+                    "hidden": false,
+                    "control": "text",
+                    "tableDelegate": "text",
+                    "filter": "string"
+                }
+            ],
+            "methods": {
+                "COUNT": "SELECT COUNT(`UM_TYPEC`) FROM `mgt2`.`omkum_p2` WHERE 1=1",
+                "GET": "SELECT * FROM `mgt2`.`omkum_p2` WHERE 1=1"
+            }
+        },
+        "catenaries": {
+            "editable": true,
+            "indexField": "id",
+            "readableField": "name",
+            "revision": "201504121300",
+            "comment": "no problems here",
+            "fields": [
+                {
+                    "name": "id",
+                    "caption": "id",
+                    "hidden": true,
+                    "filter": "none"
+                },
+                {
+                    "name": "name",
+                    "caption": "Наименование подвески",
+                    "hidden": false,
+                    "control": "text",
+                    "formDelegate": "text",
+                    "tableDelegate": "text",
+                    "filter": "string",
+                    "width": 720
+                },
+                {
+                    "name": "catenary_num",
+                    "caption": "Номер подвески КС",
+                    "hidden": false,
+                    "control": "text",
+                    "formDelegate": "text",
+                    "tableDelegate": "text",
+                    "filter": "string",
+                    "width": 200
+                }
+            ],
+            "methods": {
+                "COUNT": "SELECT COUNT(`id`) FROM `catenaries` WHERE 1=1",
+                "GET": "SELECT * FROM `catenaries` WHERE 1=1",
+
+                "DEL": "var q = 'DELETE FROM `catenaries` WHERE id = :id;'; var b = db.msg; var r1 = db.dbOperation( q, b ); r1;",
+                "ADD": "var q = 'INSERT INTO `catenaries` ( `name`, `catenary_num` ) VALUES ( :name, :catenary_num );'; var b = db.msg; var r1 = db.dbOperation( q, b ); r1;",
+                "UPD": "var q = 'UPDATE `catenaries` SET `name` = :name, `catenary_num` = :catenary_num WHERE `id` = :id;'; var b = db.msg; var r1 = db.dbOperation( q, b ); r1;",
+
+
+                "DELo": "DELETE FROM `catenaries` WHERE id = ?;",
+                "ADDo": "INSERT INTO `catenaries` ( `name`, `catenary_num` ) VALUES ( ?, ? );",
+                "UPDo": "UPDATE `catenaries` SET `name` = ?, `catenary_num` = ? WHERE `id` = ?;"
+            }
+        },
+        "repair_type": {
+            "editable": true,
+            "indexField": "id",
+            "readableField": "name",
+            "revision": "201504121300",
+            "comment": "no problems here",
+            "fields": [
+                {
+                    "name": "id",
+                    "caption": "id",
+                    "hidden": true,
+                    "filter": "none"
+                },
+                {
+                    "name": "name",
+                    "caption": "Наименование вида работ",
+                    "hidden": false,
+                    "control": "text",
+                    "formDelegate": "text",
+                    "tableDelegate": "text",
+                    "filter": "string",
+                    "width": 500
+                }
+            ],
+            "methods": {
+                "COUNT": "SELECT COUNT(`id`) FROM `repair_type` WHERE 1=1",
+                "GET": "SELECT * FROM `repair_type` WHERE 1=1",
+                "DEL": "var q = 'DELETE FROM `repair_type` WHERE `id` = :id;'; var b = db.msg; var r1 = db.dbOperation( q, b ); r1;",
+                "ADD": "var q = 'INSERT INTO `repair_type` ( `name` ) VALUES ( :name );'; var b = db.msg; var r1 = db.dbOperation( q, b ); r1;",
+                "UPD": "var q = 'UPDATE `repair_type` SET `name` = :name WHERE `id` = :id;'; var b = db.msg; var r1 = db.dbOperation( q, b ); r1;",
+
+
+                "DELo": "DELETE FROM `repair_type` WHERE `id` = ?;",
+                "ADDo": "INSERT INTO `repair_type` ( `name` ) VALUES ( ? );",
+                "UPDo": "UPDATE `repair_type` SET `name` = ? WHERE `id` = ?;"
+            }
+        },
+        "el_class": {
+            "editable": true,
+            "indexField": "id",
+            "readableField": "name",
+            "revision": "201504121300",
+            "comment": "to insert we have to provide type_id, parent_id, num, have_type not sure what to insert",
+            "fields": [
+                {
+                    "name": "id",
+                    "caption": "id",
+                    "hidden": true,
+                    "filter": "string"
+                },
+                {
+                    "name": "level",
+                    "caption": "",
+                    "hidden": true,
+                    "filter": "string"
+                },
+                {
+                    "name": "type_id",
+                    "caption": "",
+                    "hidden": true,
+                    "filter": "string"
+                },
+                {
+                    "name": "parent_id",
+                    "caption": "",
+                    "hidden": true,
+                    "filter": "string"
+                },
+                {
+                    "name": "name",
+                    "caption": "Классы элементов КС",
+                    "hidden": false,
+                    "control": "text",
+                    "formDelegate": "text",
+                    "tableDelegate": "text",
+                    "filter": "string",
+                    "width": 426
+                },
+                {
+                    "name": "is_meter",
+                    "caption": "Метрический",
+                    "hidden": false,
+                    "control": "bool",
+                    "formDelegate": "bool",
+                    "tableDelegate": "bool",
+                    "filter": "string",
+                    "width": 103
+                },
+                {
+                    "name": "have_type",
+                    "caption": "",
+                    "hidden": true,
+                    "filter": "string"
+                },
+                {
+                    "name": "si",
+                    "caption": "Ед. Изм.",
+                    "hidden": false,
+                    "control": "combo",
+                    "formDelegate": "combo",
+                    "tableDelegate": "text",
+                    "filter": "string",
+                    "textRole": "name",
+                    "id": "id",
+                    "relationIdField": "id",
+                    "localIdField": "si_id",
+                    "datasource": "si",
+                    "width": 110
+                },
+                {
+                    "name": "si_id",
+                    "caption": "",
+                    "hidden": true,
+                    "filter": "string"
+                },
+                {
+                    "name": "num",
+                    "caption": "",
+                    "hidden": true,
+                    "filter": "string"
+                },
+                {
+                    "name": "types",
+                    "caption": "Кол-во типов",
+                    "tableDelegate": "int",
+                    "formDelegate": "none",
+                    "hidden": false,
+                    "filter": "string",
+                    "width": 124
+                },
+                {
+                    "name": "elements",
+                    "caption": "Кол-во элементов",
+                    "formDelegate": "none",
+                    "tableDelegate": "int",
+                    "hidden": false,
+                    "filter": "string",
+                    "width": 124
+                }
+            ],
+            "methods": {
+                "COUNT": "SELECT COUNT( id ) FROM mgt2.class WHERE `level` = 1",
+                "GET": "SELECT `c`.`id`, `c`.`level`, `c`.`type_id`, `c`.`parent_id`, `c`.`name`, `c`.`is_meter`, `c`.`have_type`, `s`.`name` AS `si`, `c`.`si_id`, `c`.`num`, ifnull(ifnull(`cc`.`count`, `ct`.`count`), '') as `elements`, ifnull(t.count, '') as `types` FROM `mgt2`.`class` `c` LEFT JOIN `si` `s` ON `s`.`id` = `c`.`si_id` LEFT JOIN `total_el_count` cc ON `c`.`id` = `cc`.`parent_id` LEFT JOIN `total_el_count` ct ON `c`.`id` = `ct`.`id` left join type_count t on c.id=t.id WHERE c.`level` =1",
+
+                "DEL": "var q1 = 'SELECT COUNT(id) FROM elements where class_id = :id;';var b = db.msg;var t = db.dbValue( q1, b );q1 = 'SELECT COUNT(parent_id) FROM class WHERE parent_id = :id;';var r1;if( t == 0 && db.dbValue( q1, b ) == 1 ) {var q = 'DELETE FROM `class` WHERE `id`=:id;';var r1 = db.dbOperation( q, b );};r1;",
+                "ADD": "var b = db.msg;var q = 'INSERT INTO `mgt2`.`class` (`level`, `type_id`, `parent_id`, `name`, `is_meter`, `have_type`, `si_id`, `num`) VALUES ( 1, 0, 404, :name, :is_meter, 0, :si, 0 );';b.parent_id = db.dbOperation( q, b );q = 'UPDATE `class` SET parent_id = :parent_id WHERE id = :parent_id;';var r1 = db.dbOperation( q, b );r1;",
+                "UPD": "var b = db.msg; var q0 = 'SELECT count(*) FROM mgt2.elements WHERE class_id = 666;'; var bb = db.dbValue( q0, b ); var r1; if( bb ) { var q = 'UPDATE `class` SET `is_meter`=:is_meter, `name`=:name, `si_id`=:si WHERE `id`=:id;'; r1 = db.dbOperation( q, b ); } r1; ",
+
+                "DELo": "DELETE FROM `class` WHERE `id` = ?;",
+                "ADDo": "INSERT INTO `class` ( `name`, `is_meter`, `si_id`, level, type_id, parent_id,have_type  ) VALUES ( ?,?,?, 1,0,null, 0  );",
+                "UPDo": "UPDATE `class` SET `name` = ?, `si_id` = ? WHERE `id` = ?;"
+            }
+        },
+        "el_type": {
+            "editable": true,
+            "indexField": "id",
+            "readableField": "name",
+            "revision": "201504121300",
+            "comment": "to insert we have to provide type_id, num, have_type not sure what to insert. parent id should be taken from other view",
+            "fields": [
+                {
+                    "name": "id",
+                    "caption": "",
+                    "hidden": true,
+                    "filter": "string"
+                },
+                {
+                    "name": "level",
+                    "caption": "",
+                    "hidden": true,
+                    "filter": "string"
+                },
+                {
+                    "name": "type_id",
+                    "caption": "",
+                    "hidden": true,
+                    "filter": "string"
+                },
+                {
+                    "name": "parent_id",
+                    "caption": "",
+                    "hidden": true,
+                    "filter": "string"
+                },
+                {
+                    "name": "name",
+                    "caption": "Типы элементов КС",
+                    "hidden": false,
+                    "control": "text",
+                    "formDelegate": "text",
+                    "tableDelegate": "text",
+                    "filter": "string",
+                    "width": 467
+                },
+                {
+                    "name": "is_meter",
+                    "caption": "Метрический",
+                    "hidden": true,
+                    "filter": "string",
+                    "width": 115
+                },
+                {
+                    "name": "have_type",
+                    "caption": "",
+                    "hidden": true,
+                    "filter": "string"
+                },
+                {
+                    "name": "si",
+                    "caption": "Ед. Изм.",
+                    "hidden": true,
+                    "filter": "string",
+                    "width": 110
+                },
+                {
+                    "name": "si_id",
+                    "caption": "",
+                    "hidden": true,
+                    "filter": "string"
+                },
+                {
+                    "name": "num",
+                    "caption": "",
+                    "hidden": true,
+                    "filter": "string"
+                },
+                {
+                    "name": "elements",
+                    "caption": "Кол-во элементов",
+                    "hidden": false,
+                    "formDelegate": "none",
+                    "filter": "string",
+                    "width": 124
+                },
+                {
+                    "name": "types",
+                    "caption": "",
+                    "hidden": true,
+                    "filter": "string"
+                }
+            ],
+            "methods": {
+                "COUNT": "SELECT  COUNT( `id` ) FROM `class` WHERE `level` = 2 ",
+                "GET": "SELECT `c`.`id`, `c`.`level`, `c`.`type_id`, `c`.`parent_id`, `c`.`name`, `c`.`is_meter`, `c`.`have_type`, `s`.`name` AS `si`, `c`.`si_id`, `c`.`num`, ifnull(ifnull(`cc`.`count`, `ct`.`count`), '') as `elements`, ifnull(t.count, '') as `types` FROM `mgt2`.`class` `c` LEFT JOIN `mgt2`.`si` `s` ON `s`.`id` = `c`.`si_id` LEFT JOIN `mgt2`.`total_el_count` cc ON `c`.`id` = `cc`.`parent_id` LEFT JOIN `mgt2`.`total_el_count` ct ON `c`.`id` = `ct`.`id` left join type_count t on c.id=t.id WHERE `c`.`level` =2",
+
+
+                "DEL": "var q1 = 'SELECT COUNT(id) FROM elements where class_id = :id;';var b = db.msg;var t = db.dbValue( q1, b );var r1;if( t == 0 ) {var q = 'DELETE FROM `class` WHERE `id`=:id;';var r1 = db.dbOperation( q, b );var qx='SELECT count(parent_id) FROM class WHERE parent_id = :parent_id;';var rx = db.dbValue( qx, b );if( rx == 1 ) { qx = 'UPDATE class SET have_type=0 WHERE id=:parent_id;';db.dbOperation( qx, b );}};r1;",
+                "ADD": "var q1 = 'SELECT MAX( type_id ) FROM class WHERE parent_id = :parent_id;';var b = db.msg;b.type_id = db.dbValue( q1, b ) + 1;var q = 'INSERT INTO `mgt2`.`class` (`level`, `type_id`, `parent_id`, `name`, `is_meter`, `have_type`, `si_id`, `num`) VALUES ( 2, :type_id, :parent_id, :name, 0, 0, :si_id, 0 )';var r1 = db.dbOperation( q, b );var qx='UPDATE class SET have_type = 1 WHERE id = :parent_id';db.dbOperation( qx, b );r1;",
+                "UPD": "var q1 = 'SELECT MAX( type_id ) FROM class WHERE parent_id = :parent_id;';var b = db.msg;b.type_id = db.dbValue( q1, b ) + 1;var q = 'UPDATE `class` SET `parent_id`=:parent_id, `name`=:name, `si_id`=:si_id WHERE `id`=:id;'; var r1 = db.dbOperation( q, b ); r1;",
+
+
+                "DELo": "DELETE FROM `mgt2`.`type` WHERE `id` = ?;",
+                "ADDo": "INSERT INTO `mgt2`.`type` ( `name`, `el_class_id` ) VALUES ( ?,? );",
+                "UPDo": "UPDATE `mgt2`.`type` SET `name` = ?, `el_class_id` = ? WHERE `id` = ?;"
+            }
+        },
+        "si": {
+            "editable": true,
+            "indexField": "id",
+            "readableField": "name",
+            "revision": "201504121300",
+            "comment": "no problems here",
+            "fields": [
+                {
+                    "name": "id",
+                    "caption": "id",
+                    "hidden": true,
+                    "filter": "none"
+                },
+                {
+                    "name": "name",
+                    "caption": "Наименование единицы езмерения",
+                    "hidden": false,
+                    "control": "text",
+                    "formDelegate": "text",
+                    "tableDelegate": "text",
+                    "filter": "string",
+                    "width": 360
+                }
+            ],
+            "methods": {
+                "COUNT": "SELECT COUNT(`id`) FROM `si` WHERE 1=1",
+                "GET": "SELECT * FROM `si` WHERE 1=1",
+                "DEL": "var q = 'DELETE FROM `si` WHERE `id` = :id;';var b = db.msg;var r1 = db.dbOperation( q, b );r1;",
+
+                "ADD": "var q = 'INSERT INTO `si` ( `name` ) VALUES ( :name );';var b = db.msg;var r1 = db.dbOperation( q, b );r1;",
+
+                "UPD": "var q = 'UPDATE `si` SET `name` = :name WHERE `id` = :id;';var b = db.msg;var r1 = db.dbOperation( q, b );r1;",
+
+                "DELo": "DELETE FROM `si` WHERE `id` = ?;",
+                "ADDo": "INSERT INTO `si` ( `name` ) VALUES ( ? );",
+                "UPDo": "UPDATE `si` SET `name` = ? WHERE `id` = ?;"
+            }
+        },
+        "elements": {
+            "editable": true,
+            "indexField": "id",
+            "readableField": "name",
+            "revision": "201504121300",
+            "comment": "area only should be used to filter sites.... how to do it? custom form?same for class/type",
+            "fields": [
+                {
+                    "name": "area_id",
+                    "caption": "",
+                    "hidden": true,
+                    "filter": "string",
+                    "width": 150
+                },
+                {
+                    "name": "area_name",
+                    "caption": "Район КС",
+                    "hidden": false,
+                    "control": "combo",
+                    "formDelegate": "combo",
+                    "tableDelegate": "text",
+                    "filter": "string",
+                    "textRole": "name",
+                    "id": "id",
+                    "relationIdField": "id",
+                    "localIdField": "area_id",
+                    "datasource": "cn_area",
+                    "width": 131
+                },
+                {
+                    "name": "site1_id",
+                    "caption": "",
+                    "hidden": true,
+                    "filter": "string",
+                    "width": 150
+                },
+                {
+                    "name": "site1_name",
+                    "caption": "Участок КС троллейбус",
+                    "hidden": false,
+                    "control": "combo",
+                    "formDelegate": "combo",
+                    "tableDelegate": "text",
+                    "filter": "string",
+                    "textRole": "name",
+                    "id": "id",
+                    "relationIdField": "id",
+                    "localIdField": "site1_id",
+                    "datasource": "site",
+                    "width": 236
+                },
+                {
+                    "name": "site2_id",
+                    "caption": "",
+                    "hidden": true,
+                    "filter": "string",
+                    "width": 150
+                },
+                {
+                    "name": "site2_name",
+                    "caption": "Участок КС трамвай",
+                    "hidden": false,
+                    "control": "combo",
+                    "formDelegate": "combo",
+                    "tableDelegate": "text",
+                    "filter": "string",
+                    "textRole": "name",
+                    "id": "id",
+                    "relationIdField": "id",
+                    "localIdField": "site2_id",
+                    "datasource": "site",
+                    "width": 236
+                },
+                {
+                    "name": "id",
+                    "caption": "",
+                    "hidden": true,
+                    "filter": "string"
+                },
+                {
+                    "name": "name",
+                    "caption": "Название элемента",
+                    "hidden": false,
+                    "control": "text",
+                    "formDelegate": "text",
+                    "tableDelegate": "text",
+                    "filter": "string",
+                    "width": 200
+                },
+                {
+                    "name": "mount_date",
+                    "caption": "Дата установки",
+                    "hidden": false,
+                    "control": "date",
+                    "formDelegate": "date",
+                    "tableDelegate": "date",
+                    "filter": "string",
+                    "width": 164
+                },
+                {
+                    "name": "dismount_date",
+                    "caption": "Дата демонтажа",
+                    "hidden": false,
+                    "formDelegate": "date",
+                    "control": "date",
+                    "tableDelegate": "date",
+                    "filter": "string",
+                    "width": 164
+                },
+                {
+                    "name": "coordinates",
+                    "caption": "",
+                    "hidden": true,
+                    "filter": "string",
+                    "width": 234
+                },
+                {
+                    "name": "class_id",
+                    "caption": "class_id",
+                    "hidden": true,
+                    "filter": "string"
+                },
+                {
+                    "name": "class",
+                    "caption": "Класс",
+                    "hidden": false,
+                    "filter": "string",
+                    "control" : "combo",
+                    "formDelegate": "combo",
+                    "tableDelegate": "text",
+                    "textRole": "name",
+                    "id": "id",
+                    "relationIdField": "id",
+                    "localIdField": "class_id",
+                    "datasource": "el_class",
+                    "width": 190
+                },
+                {
+                    "name": "type_id",
+                    "caption": "type_id",
+                    "hidden": true,
+                    "filter": "string"
+                },
+                {
+                    "name": "type",
+                    "caption": "Тип",
+                    "hidden": false,
+                    "filter": "string",
+                    "control" : "combo",
+                    "formDelegate": "combo",
+                    "tableDelegate": "text",
+                    "textRole": "name",
+                    "id": "id",
+                    "relationIdField": "id",
+                    "localIdField": "type_id",
+                    "datasource": "el_type",
+                    "width": 200
+                },
+                {
+                    "name": "accounting_num",
+                    "caption": "Бух. №",
+                    "hidden": false,
+                    "control": "int",
+                    "formDelegate": "int",
+                    "tableDelegate": "int",
+                    "filter": "string",
+                    "width": 80
+                },
+                {
+                    "name": "length",
+                    "caption": "Длина, м",
+                    "hidden": false,
+                    "control": "int",
+                    "formDelegate": "int",
+                    "tableDelegate": "int",
+                    "filter": "string",
+                    "width": 110
+                },
+                {
+                    "name": "section",
+                    "caption": "Сечение, мм",
+                    "hidden": false,
+                    "control": "int",
+                    "formDelegate": "int",
+                    "tableDelegate": "int",
+                    "filter": "string",
+                    "width": 127
+                },
+                {
+                    "name": "material",
+                    "caption": "Материал",
+                    "hidden": false,
+                    "control": "text",
+                    "formDelegate": "text",
+                    "tableDelegate": "text",
+                    "filter": "string",
+                    "width": 110
+                }
+            ],
+            "methods": {
+                "COUNT": "SELECT count(id) FROM elements WHERE 1=1",
+                "GET": "SELECT e.id, e.name, e.mount_date, e.dismount_date, IFNULL(a1.id, a2.id) AS area_id, IFNULL(a1.name, a2.name) AS area_name, e.site_id AS site1_id, CASE WHEN e.site_id = 404 THEN '' ELSE s1.name END AS site1_name, e.second_site_id AS site2_id, CASE WHEN e.second_site_id = 404 THEN '' ELSE s2.name END AS site2_name, e.coordinates, k.class_id, k.class, k.type_id, k.type, e.accounting_num, e.length, e.section, e.material FROM elements e LEFT JOIN site s1 ON e.site_id = s1.id LEFT JOIN site s2 ON e.second_site_id = s2.id LEFT JOIN area a1 ON s1.area_id = a1.id LEFT JOIN area a2 ON s2.area_id = a2.id LEFT JOIN class c ON e.class_id = c.id LEFT JOIN (SELECT c.id AS class_id, t.id AS type_id, c.name AS 'class', t.name AS 'type1', CASE WHEN c.have_type = 0 THEN NULL ELSE t.name END AS 'type' FROM class c JOIN class t ON c.id = t.parent_id WHERE c.is_meter = 0) k ON e.class_id = k.type_id WHERE 1 = 1",
+
+                "DEL": "var q1 = 'DELETE FROM elements WHERE id = :id;';var b = db.msg;if( b.type_id !== undefined && b.type_id !== -1 ) b.class_id = b.type_id;var t = db.dbValue( q1, b );t;",
+                "ADD": "var q1 = 'INSERT INTO elements ( name, mount_date, dismount_date, site_id, second_site_id, class_id, accounting_num, length, section, material ) VALUES ( :name, :mount_date, :dismount_date, :site1_id, :site2_id, :class_id, :accounting_num, :length, :section, :material );';var b = db.msg;if( b.type_id !== undefined && b.type_id !== -1 ) b.class_id = b.type_id;var t = db.dbValue( q1, b );t;",
+                "UPD": "var q1 = 'UPDATE elements SET name=:name, mount_date=:mount_date, dismount_date=:dismount_date, site_id=:site1_id, second_site_id=:site2_id, class_id =:class_id, accounting_num=:accounting_num, length=:length, section=:section, material=:material WHERE id = :id;';var b = db.msg;if( b.type_id !== undefined && b.type_id !== -1 ) b.class_id = b.type_id;var t = db.dbValue( q1, b );t;"
+            }
+        },
+
+
+
+
+        "tree": {
+            "editable": false,
+            "indexField": "name",
+            "readableField": "name",
+            "revision": "201504121300",
+            "comment": "no problems here",
+            "fields": [
+                {
+                    "name": "level",
+                    "caption": "Уровень",
+                    "hidden": true,
+                    "control": "text",
+                    "tableDelegate": "text",
+                    "filter": "string"
+                },
+                {
+                    "name": "type",
+                    "caption": "Тип",
+                    "hidden": true,
+                    "control": "text",
+                    "tableDelegate": "text",
+                    "filter": "string"
+                },
+                {
+                    "name": "name",
+                    "caption": "Наименование",
+                    "hidden": false,
+                    "control": "text",
+                    "formDelegate": "text",
+                    "tableDelegate": "text",
+                    "filter": "string"
+                },
+                {
+                    "name": "count",
+                    "caption": "Кол-во",
+                    "hidden": false,
+                    "control": "text",
+                    "formDelegate": "int",
+                    "tableDelegate": "text",
+                    "filter": "string"
+                },
+                {
+                    "name": "si",
+                    "caption": "Ед. Изм.",
+                    "hidden": false,
+                    "control": "text",
+                    "formDelegate": "text",
+                    "tableDelegate": "text",
+                    "filter": "string"
+                },
+                {
+                    "name": "wired",
+                    "caption": "",
+                    "hidden": true,
+                    "control": "text",
+                    "tableDelegate": "text",
+                    "filter": "string"
+                },
+                {
+                    "name": "el_count",
+                    "caption": "",
+                    "hidden": true,
+                    "control": "text",
+                    "tableDelegate": "text",
+                    "filter": "string"
+                },
+
+                {
+                    "name": "mount_date",
+                    "caption": "Установлен",
+                    "hidden": false,
+                    "formDelegate": "date",
+                    "control": "date",
+                    "tableDelegate": "date",
+                    "filter": "string"
+                },
+                {
+                    "name": "dismount_date",
+                    "caption": "Демонтирован",
+                    "hidden": false,
+                    "control": "date",
+                    "formDelegate": "date",
+                    "tableDelegate": "date",
+                    "filter": "string"
+                }
+            ],
+            "methods": {
+                "COUNT": "SELECT COUNT( `t`.`level` ) FROM (SELECT @p1:=:currentSelectedSiteId) `p`, `tree` `t` WHERE 1=1",
+                "GET": "SELECT t.`level`, t.`type`, t.`name`, t.`count`, t.`si`, t.`wired`, t.`el_count`, t.mount_date, t.dismount_date FROM (SELECT @p1:=:currentSelectedSiteId) `p`, `tree` `t` WHERE 1=1"
+            }
+        },
+        "treeSite": {
+            "editable": false,
+            "indexField": "id",
+            "readableField": "site",
+            "revision": "201504121300",
+            "comment": "no problems here",
+            "fields": [
+                {
+                    "name": "id",
+                    "caption": "id",
+                    "hidden": true,
+                    "control": "text",
+                    "tableDelegate": "text",
+                    "filter": "string"
+                },
+                {
+                    "name": "area",
+                    "caption": "Район КС",
+                    "hidden": false,
+                    "control": "text",
+                    "formDelegate": "text",
+                    "tableDelegate": "text",
+                    "filter": "string",
+                    "width": 115
+                },
+                {
+                    "name": "el_site",
+                    "caption": "Электрический участок",
+                    "hidden": false,
+                    "control": "text",
+                    "formDelegate": "text",
+                    "tableDelegate": "text",
+                    "filter": "string",
+                    "width": 470
+                },
+                {
+                    "name": "sw_num_plus",
+                    "caption": "Выкл. +",
+                    "hidden": false,
+                    "control": "text",
+                    "formDelegate": "text",
+                    "tableDelegate": "text",
+                    "filter": "string",
+                    "width": 95
+                },
+                {
+                    "name": "sw_num_minus",
+                    "caption": "Выкл. -",
+                    "hidden": false,
+                    "control": "text",
+                    "formDelegate": "text",
+                    "tableDelegate": "text",
+                    "filter": "string",
+                    "width": 95
+                },
+                {
+                    "name": "codename",
+                    "caption": "Шифр",
+                    "hidden": false,
+                    "control": "text",
+                    "formDelegate": "text",
+                    "tableDelegate": "text",
+                    "filter": "string",
+                    "width": 150
+                },
+                {
+                    "name": "site_number",
+                    "caption": "№ участка",
+                    "hidden": false,
+                    "control": "text",
+                    "formDelegate": "text",
+                    "tableDelegate": "text",
+                    "filter": "string",
+                    "width": 110
+                },
+                {
+                    "name": "site",
+                    "caption": "Участок КС",
+                    "hidden": false,
+                    "control": "text",
+                    "formDelegate": "text",
+                    "tableDelegate": "text",
+                    "filter": "string",
+                    "width": 320
+                },
+                {
+                    "name": "is_tram",
+                    "caption": "Сеть",
+                    "hidden": false,
+                    "control": "transportType",
+                    "formDelegate": "transportType",
+                    "tableDelegate": "transportType",
+                    "filter": "string",
+                    "width": 62
+                },
+                {
+                    "name": "street",
+                    "caption": "Улица",
+                    "hidden": false,
+                    "control": "text",
+                    "formDelegate": "text",
+                    "tableDelegate": "text",
+                    "filter": "string",
+                    "width": 320
+                },
+                {
+                    "name": "data",
+                    "caption": "data",
+                    "hidden": true,
+                    "control": "text",
+                    "tableDelegate": "text",
+                    "filter": "string"
+                }
+
+            ],
+            "methods": {
+                "COUNT": "SELECT COUNT( `id` ) FROM `sites_tree` WHERE 1=1",
+                "GET": "SELECT `id`, `area`, `name` as `el_site`, `sw_num_plus`, `sw_num_minus`, `codename`, `num` as `site_number`, `site`, `is_tram`, `street`, `data` FROM `sites_tree` WHERE 1=1"
+            }
+        },
+
+        "site": {
+            "editable": true,
+            "indexField": "id",
+            "readableField": "site",
+            "revision": "201504121300",
+            "comment": "street selection trouble",
+            "fields": [
+                {
+                    "name": "area_id",
+                    "caption": "id",
+                    "hidden": true,
+                    "filter": "none"
+                },
+                {
+                    "name": "area",
+                    "caption": "Район КС",
+                    "hidden": false,
+                    "control": "combo",
+                    "formDelegate": "combo",
+                    "tableDelegate": "text",
+                    "filter": "none",
+                    "textRole": "name",
+                    "id": "id",
+                    "relationIdField": "id",
+                    "localIdField": "area_id",
+                    "datasource": "cn_area",
+                    "width": 127
+                },
+                {
+                    "name": "el_site_id",
+                    "caption": "id",
+                    "hidden": true,
+                    "filter": "none"
+                },
+                {
+                    "name": "el_site",
+                    "caption": "Электрический участок",
+                    "hidden": false,
+                    "control": "combo",
+                    "formDelegate": "combo",
+                    "tableDelegate": "text",
+                    "filter": "none",
+                    "textRole": "name",
+                    "id": "id",
+                    "relationIdField": "id",
+                    "localIdField": "el_site_id",
+                    "datasource": "el_site",
+                    "width": 475
+                },
+                {
+                    "name": "sw_num_plus",
+                    "caption": "Выкл. +",
+                    "hidden": false,
+                    "control": "int",
+                    "formDelegate": "int",
+                    "tableDelegate": "int",
+                    "min": 0,
+                    "max": 99999,
+                    "filter": "string",
+                    "width": 90
+                },
+                {
+                    "name": "sw_num_minus",
+                    "caption": "Выкл. -",
+                    "hidden": false,
+                    "control": "int",
+                    "formDelegate": "int",
+                    "tableDelegate": "int",
+                    "min": 0,
+                    "max": 99999,
+                    "filter": "string",
+                    "width": 90
+                },
+                {
+                    "name": "codename",
+                    "caption": "Шифр",
+                    "hidden": false,
+                    "control": "text",
+                    "formDelegate": "text",
+                    "tableDelegate": "text",
+                    "filter": "string",
+                    "width": 155
+                },
+                {
+                    "name": "id",
+                    "caption": "id",
+                    "hidden": true,
+                    "filter": "none"
+                },
+                {
+                    "name": "site_number",
+                    "caption": "№",
+                    "hidden": false,
+                    "control": "int",
+                    "formDelegate": "int",
+                    "tableDelegate": "int",
+                    "min": 0,
+                    "max": 99999,
+                    "filter": "string",
+                    "width": 50
+                },
+                {
+                    "name": "site",
+                    "caption": "Участок КС",
+                    "hidden": false,
+                    "control": "text",
+                    "formDelegate": "text",
+                    "tableDelegate": "text",
+                    "filter": "string",
+                    "width": 200
+                },
+                {
+                    "name": "is_tram",
+                    "caption": "Сеть",
+                    "hidden": false,
+                    "formDelegate": "transportType",
+                    "control": "transportType",
+                    "tableDelegate": "transportType",
+                    "filter": "string",
+                    "width": 60
+                },
+                {
+                    "name": "year_constr",
+                    "caption": "Год постройки",
+                    "hidden": false,
+                    "control": "int",
+                    "formDelegate": "int",
+                    "tableDelegate": "int",
+                    "min": 1901,
+                    "max": 2999,
+                    "filter": "string",
+                    "width": 125
+                },
+                {
+                    "name": "street_code",
+                    "caption": "street_code",
+                    "hidden": true,
+                    "filter": "string"
+                },
+                {
+                    "name": "street",
+                    "caption": "Название улицы",
+                    "hidden": false,
+                    "filter": "none",
+                    "width": 215,
+                    "textRole": "UM_NAMEF",
+                    "formDelegate": "combo",
+                    "control": "combo",
+                    "tableDelegate": "text",
+                    "datasource": "omkum_p1",
+                    "id": "UM_CODE",
+                    "relationIdField": "UM_CODE",
+                    "localIdField": "omkum_code"
+                },
+                {
+                    "name": "catenary_name",
+                    "caption": "Наименование подвески",
+                    "hidden": false,
+                    "textRole": "name",
+                    "control": "combo",
+                    "formDelegate": "combo",
+                    "tableDelegate": "text",
+                    "datasource": "catenaries",
+                    "id": "id",
+                    "relationIdField": "id",
+                    "localIdField": "catenaries_id",
+                    "filter": "none",
+                    "width": 670
+                },
+                {
+                    "name": "catenaries_id",
+                    "caption": "catenaries_id",
+                    "hidden": true,
+                    "filter": "string"
+                },
+                {
+                    "name": "catenary_num",
+                    "caption": "Номер подвески КС",
+                    "hidden": false,
+                    "formDelegate": "text",
+                    "filter": "string",
+                    "width": 200
+                },
+                {
+                    "name": "data",
+                    "caption": "data",
+                    "hidden": true,
+                    "filter": "string"
+                }
+
+            ],
+            "methods": {
+                "COUNT": "SELECT COUNT( id ) FROM site WHERE id!=404",
+                "GET": "SELECT a.`area_id`, a.`area`, a.`el_site_id`, a.`name` AS `el_site`, a.`sw_num_plus`, a.`sw_num_minus`, a.`codename`, a.`id`, a.`num` AS `site_number`, a.`site`, a.`is_tram`, a.`year_constr`, a.`street_code`, a.`street`, a.`catenary_name`, a.`catenaries_id`, a.`catenary_num`, b.data FROM `sites_tree` a, site b WHERE a.id != 404 AND b.id = a.id",
+
+                "DEL": " var q1 = 'DELETE FROM `site` WHERE `id` = :id;'; var b = db.msg; var t = db.dbOperation( q1, b ); var q2 = 'UPDATE elements SET site_id = 404 WHERE site_id = :id;'; var q3 = 'UPDATE elements SET second_site_id = 404 WHERE second_site_id = :id;'; var t = db.dbOperation( q2, b ); var t = db.dbOperation( q3, b ); t; ",
+                "ADD": "var q1 = 'INSERT INTO site ( name, year_constr, is_tram, area_id, catenaries_id, OMKUM_P1_UM_CODE, el_site_id ) VALUES ( :site, :year_constr, :is_tram, :area_id, :catenaries_id, :street_code, :el_site_id );';var b = db.msg;var t = db.dbOperation( q1, b );t;",
+                "UPD": "var q1 = 'UPDATE `site` SET `area_id`=:area_id, `name`=:site, `year_constr`=:year_constr, `is_tram`=:is_tram, `OMKUM_P1_UM_CODE`=:street_code, `catenaries_id`=:catenaries_id, `el_site_id`=:el_site_id WHERE `id`=:id;';var b = db.msg;var t = db.dbOperation( q1, b );t;",
+
+
+
+                "DELo": "DELETE FROM `site` WHERE `id` = ?;",
+                "ADDo": "INSERT INTO `site` ( `area_id`, `name`, `year_constr`, `is_tram`, `OMKUM_P1_UM_CODE`, `catenaries_id` ) VALUES ( ?, ?, ?, ?, ?, ? );",
+                "UPDo": "UPDATE `site` SET `area_id`=?, `name`=?, `year_constr`=?, `is_tram`=?, `OMKUM_P1_UM_CODE`=?, `catenaries_id`=? WHERE `id`=?;"
+            }
+        },
+
+        "el_site": {
+            "editable": true,
+            "indexField": "id",
+            "readableField": "name",
+            "fields": [
+                {
+                    "name": "id",
+                    "caption": "id",
+                    "hidden": true,
+                    "filter": "none"
+                },
+                {
+                    "name": "name",
+                    "caption": "Электрический участок",
+                    "hidden": false,
+                    "formDelegate": "text",
+                    "tableDelegate": "text",
+                    "width": 703
+                },
+                {
+                    "name": "sw_num_plus",
+                    "caption": "Выкл. +",
+                    "hidden": false,
+                    "formDelegate": "int",
+                    "tableDelegate": "int",
+                    "width": 113
+                },
+                {
+                    "name": "sw_num_minus",
+                    "caption": "Выкл. -",
+                    "hidden": false,
+                    "formDelegate": "int",
+                    "tableDelegate": "int",
+                    "width": 113
+                }
+            ],
+            "methods": {
+                "COUNT": "SELECT COUNT( id ) FROM el_site WHERE 1=1",
+                "GET": "SELECT * FROM `el_site` WHERE 1=1",
+
+                "DEL": "var q1 = 'DELETE FROM el_site WHERE id = :id;';var b = db.msg;var t = db.dbOperation( q1, b );t;",
+                "ADD": "var q1 = 'INSERT INTO el_site ( name, sw_num_plus, sw_num_minus ) VALUES ( :name, :sw_num_plus, :sw_num_minus );';var b = db.msg;var t = db.dbOperation( q1, b );t;",
+                "UPD": "var q1 = 'UPDATE `el_site` SET `name`=:name, `sw_num_plus`=:sw_num_plus, `sw_num_minus`=:sw_num_minus WHERE `id`=:id;';var b = db.msg;var t = db.dbOperation( q1, b );t;"
+            }
+        },
+
+        "repairs_data": {
+            "editable": true,
+            "indexField": "id",
+            "readableField": "repair_name",
+            "revision": "201504121300",
+            "comment": "missing repair_type_id and area should be used to filter sites >_<",
+            "fields": [
+                {
+                    "name": "area_id",
+                    "caption": "",
+                    "hidden": true,
+                    "filter": "none"
+                },
+                {
+                    "name": "area",
+                    "caption": "Район КС",
+                    "hidden": false,
+                    "control": "combo",
+                    "formDelegate": "combo",
+                    "tableDelegate": "text",
+                    "filter": "string",
+                    "textRole": "name",
+                    "id": "id",
+                    "relationIdField": "id",
+                    "localIdField": "area_id",
+                    "datasource": "cn_area",
+                    "width": 136
+                },
+                {
+                    "name": "site_id",
+                    "caption": "",
+                    "hidden": true,
+                    "filter": "none"
+                },
+                {
+                    "name": "site",
+                    "caption": "Участок КС",
+                    "hidden": false,
+                    "control": "combo",
+                    "formDelegate": "combo",
+                    "tableDelegate": "text",
+                    "filter": "string",
+                    "textRole": "name",
+                    "id": "id",
+                    "relationIdField": "id",
+                    "localIdField": "site_id",
+                    "datasource": "site",
+                    "width": 197
+                },
+                {
+                    "name": "id",
+                    "caption": "",
+                    "hidden": true,
+                    "filter": "none"
+                },
+                {
+                    "name": "date_begin",
+                    "caption": "Дата начала",
+                    "hidden": false,
+                    "control": "date",
+                    "formDelegate": "date",
+                    "tableDelegate": "date",
+                    "filter": "string",
+                    "width": 132
+                },
+                {
+                    "name": "date_end",
+                    "caption": "Дата окончания",
+                    "hidden": false,
+                    "formDelegate": "date",
+                    "tableDelegate": "date",
+                    "control": "date",
+                    "filter": "string",
+                    "width": 166
+                },
+                {
+                    "name": "made_by",
+                    "caption": "Производитель",
+                    "formDelegate": "text",
+                    "hidden": false,
+                    "control": "text",
+                    "tableDelegate": "text",
+                    "filter": "string",
+                    "width": 162
+
+                },
+                {
+                    "name": "comment",
+                    "caption": "Комментарий",
+                    "hidden": false,
+                    "control": "text",
+                    "tableDelegate": "text",
+                    "formDelegate": "textarea",
+                    "filter": "string",
+                    "width": 550
+
+                },
+                {
+                    "name": "repair_name",
+                    "caption": "Название работ",
+                    "hidden": false,
+                    "control": "combo",
+                    "tableDelegate": "text",
+                    "formDelegate": "text",
+                    "filter": "string",
+                    "textRole": "name",
+                    "datasource": "repair_type",
+                    "id": "id",
+                    "relationIdField": "id",
+                    "localIdField": "repair_type_id",
+                    "width": 236
+                },
+                {
+                    "name": "repair_type_id",
+                    "caption": "",
+                    "hidden": true,
+                    "filter": "none"
+                }
+
+            ],
+            "methods": {
+                "COUNT": "select count(*) from ( SELECT a.id as area_id, a.name as area, s.id as  site_id, s.name as site, r.id, r.date_begin, r.date_end, r.made_by, r.comment, rt.name as repair_name, rt.id as repair_type_id FROM  site_repair r  left join site s on r.site_id=s.id left join area a on a.id=s.area_id left join repair_type rt on r.repair_type_id=rt.id ) a WHERE 1=1",
+                "GET": "select * from ( SELECT a.id as area_id, a.name as area, s.id as  site_id, s.name as site, r.id, r.date_begin, r.date_end, r.made_by, r.comment, rt.name as repair_name, rt.id as repair_type_id FROM  site_repair r  left join site s on r.site_id=s.id left join area a on a.id=s.area_id left join repair_type rt on r.repair_type_id=rt.id ) a WHERE 1=1",
+
+                "DEL": "var q1 = 'DELETE FROM site_repair WHERE id = :id;';var b = db.msg;var t = db.dbValue( q1, b );t;",
+                "ADD": "var q1 = 'INSERT INTO site_repair ( date_begin, date_end, made_by, comment, site_id, repair_type_id ) VALUES ( :date_begin, :date_end, :made_by, :comment, :site_id, :repair_type_id );';var b = db.msg;var t = db.dbValue( q1, b );t;",
+                "UPD": "var q1 = 'UPDATE site_repair SET date_begin=:date_begin, date_end=:date_end, made_by=:made_by, comment=:comment, site_id=:site_id, repair_type_id=:repair_type_id WHERE id = :id;';var b = db.msg;var t = db.dbValue( q1, b );t;"
+            }
+        },
+
+
+        "meter_data": {
+            "editable": true,
+            "indexField": "id",
+            "readableField": "class",
+            "revision": "201504121300",
+            "comment": "missin si_id and area should be used to filter sites >_<",
+            "fields": [
+                {
+                    "name": "area_id",
+                    "caption": "",
+                    "hidden": true,
+                    "filter": "none"
+                },
+                {
+                    "name": "area_name",
+                    "caption": "Район КС",
+                    "hidden": false,
+                    "control": "combo",
+                    "formDelegate": "combo",
+                    "tableDelegate": "text",
+                    "filter": "string",
+                    "textRole": "name",
+                    "id": "id",
+                    "relationIdField": "id",
+                    "localIdField": "area_id",
+                    "datasource": "cn_area",
+                    "width": 134
+                },
+                {
+                    "name": "site_id",
+                    "caption": "",
+                    "hidden": true,
+                    "filter": "none"
+                },
+                {
+                    "name": "site_name",
+                    "caption": "Участок КС",
+                    "hidden": false,
+                    "control": "combo",
+                    "formDelegate": "combo",
+                    "tableDelegate": "text",
+                    "formDelegate": "text",
+                    "filter": "string",
+                    "textRole": "name",
+                    "id": "id",
+                    "relationIdField": "id",
+                    "localIdField": "site_id",
+                    "datasource": "site",
+                    "width": 200
+                },
+                {
+                    "name": "id",
+                    "caption": "",
+                    "hidden": true,
+                    "filter": "none"
+                },
+                {
+                    "name": "class",
+                    "caption": "Класс",
+                    "hidden": false,
+                    "control" : "combo",
+                    "formDelegate": "combo",
+                    "tableDelegate": "text",
+                    "textRole": "name",
+                    "id": "class_id",
+                    "relationIdField": "id",
+                    "localIdField": "class_id",
+                    "datasource": "el_class",
+                    "filter": "string",
+
+                    "width": 373
+                },
+                {
+                    "name": "value",
+                    "caption": "Значение",
+                    "hidden": false,
+                    "control": "text",
+                    "formDelegate": "real",
+                    "tableDelegate": "real",
+                    "filter": "string",
+                    "width": 110
+                },
+                {
+                    "name": "measure",
+                    "caption": "Ед. Изм.",
+                    "formDelegate": "text",
+                    "hidden": false,
+                    "filter": "string",
+                    "width": 108
+
+                },
+                {
+                    "name": "si_id",
+                    "caption": "",
+                    "hidden": true,
+                    "filter": "none"
+                },
+                {
+                    "name": "class_id",
+                    "caption": "",
+                    "hidden": true,
+                    "filter": "none"
+                },
+                {
+                    "name": "is_tram",
+                    "caption": "Сеть",
+                    "tableDelegate": "transportType",
+                    "hidden": false,
+                    "filter": "string",
+                    "width": 108
+                }
+
+            ],
+            "methods": {
+                "COUNT": "select count(*) from ( SELECT a.id as area_id, a.name as area_name, s.id as site_id, s.name as site_name, c.name as class, m.value, si.name as measure, m.id, si.id as si_id, class_id,s.is_tram  FROM meter_values m left join site s on s.id=m.site_id left join area a on a.id=s.area_id left join class c on c.id=m.class_id left join si on si.id=c.si_id ) a WHERE 1=1",
+                "GET": "select * from ( SELECT a.id as area_id, a.name as area_name, s.id as site_id, s.name as site_name, c.name as class, m.value, si.name as measure, m.id, si.id as si_id, class_id,s.is_tram  FROM meter_values m left join site s on s.id=m.site_id left join area a on a.id=s.area_id left join class c on c.id=m.class_id left join si on si.id=c.si_id ) a WHERE 1=1",
+                "DEL": "var q1 = 'DELETE FROM meter_values WHERE id = :id;';var b = db.msg;var t = db.dbValue( q1, b );t;",
+                "ADD": "var q1 = 'INSERT INTO meter_values ( value, site_id, class_id ) VALUES ( :value, :site_id, :class_id );';var b = db.msg;var t = db.dbValue( q1, b );t;",
+                "UPD": "var q1 = 'UPDATE meter_values SET value = :value, site_id = :site_id, class_id = :class_id WHERE id = :id;';var b = db.msg;var t = db.dbValue( q1, b );t;"
+            }
+        },
+
+
+        "users": {
+            "editable": true,
+            "indexField": "idusers",
+            "readableField": "name",
+            "revision": "201504121300",
+            "comment": "no problems here",
+            "fields": [
+                {
+                    "name": "idusers",
+                    "caption": "idusers",
+                    "hidden": true,
+                    "filter": "none"
+                },
+                {
+                    "name": "login",
+                    "caption": "Логин",
+                    "control": "text",
+                    "tableDelegate": "text",
+                    "formDelegate": "text",
+                    "filter": "string",
+                    "width": 173
+                },
+                {
+                    "name": "pass",
+                    "caption": "Пароль",
+                    "hidden": true,
+                    "control": "pass",
+
+                    "tableDelegate": "text",
+                    "formDelegate": "pass",
+                    "filter": "none"
+                },
+                {
+                    "name": "name",
+                    "caption": "Имя пользователя",
+                    "control": "text",
+                    "tableDelegate": "text",
+                    "formDelegate": "text",
+                    "filter": "string",
+                    "width": 614
+                },
+                {
+                    "name": "text",
+                    "caption": "Роль пользователя",
+                    "control": "combo",
+                    "tableDelegate": "text",
+                    "formDelegate": "combo",
+                    "filter": "string",
+                    "textRole": "text",
+                    "datasource": "roles",
+                    "id": "idroles",
+                    "relationIdField": "idroles",
+                    "localIdField": "idroles",
+                    "width": 254
+                },
+                {
+                    "name": "idroles",
+                    "caption": "idroles",
+                    "hidden": true,
+                    "filter": "none"
+                }
+            ],
+            "methods": {
+                "COUNT": "SELECT COUNT(idusers) FROM `users` WHERE 1=1",
+                "GET": "SELECT a.`idusers`, a.`login`, a.`pass`, a.`name`, b.`text`, b.`idroles` FROM `users` a, `roles` b WHERE a.`role` = b.`idroles`",
+                "DEL": "var q = 'DELETE FROM `users` WHERE `idusers` = :idusers;';var b = db.msg;var r1 = db.dbOperation( q, b );r1;",
+                "ADD": "var q = 'INSERT INTO `users` ( `login`, `pass`, `name`, `role` ) VALUES ( :login, :pass, :name, :text );';var b = db.msg;var r1 = db.dbOperation( q, b );r1;",
+                "UPD": "var q = 'UPDATE `users` SET `login`=:login, `pass`=:pass, `name`=:name, `role`=:text WHERE `idusers`=:idusers;'; var b = db.msg; var r1 = db.dbOperation( q, b ); r1;",
+                "DELo": "DELETE FROM `users` WHERE `idusers` = ?;",
+                "ADDo": "INSERT INTO `users` ( `login`, `pass`, `name`, `role` ) VALUES ( ?, ?, ?, ? );",
+                "UPDo": "UPDATE `users` SET `login`=?, `pass`=?, `name`=?, `role`=? WHERE `idusers`=?;",
+                "TEST": "var q = 'INSERT INTO `users` ( `login`, `pass`, `name`, `role` ) VALUES ( :login, :pass, :name, :text );';var b = db.msg;var r1 = db.dbOperation( q, b );r1;"
+            }
+        },
+        "roles": {
+            "editable": false,
+            "indexField": "idroles",
+            "readableField": "text",
+            "revision": "201504121300",
+            "comment": "no problems here",
+            "fields": [
+                {
+                    "name": "idroles",
+                    "caption": "id",
+                    "hidden": true,
+                    "filter": "none"
+                },
+                {
+                    "name": "text",
+                    "caption": "Роль",
+                    "control": "text",
+                    "tableDelegate": "text",
+                    "formDelegate": "text",
+                    "filter": "string"
+                }
+            ],
+            "methods": {
+                "COUNT": "SELECT COUNT(`idroles`) FROM `roles` WHERE 1=1",
+                "GET": "SELECT `idroles`, `text` FROM `roles` WHERE 1=1"
+            }
+        },
+        "calc": {
+            "editable": false,
+            "readableField": "name",
+            "fields": [
+                {
+                    "name": "site_id",
+                    "caption": "site_id",
+                    "control": "int",
+                    "tableDelegate": "int",
+                    "formDelegate": "int",
+                    "filter": "int"
+                },
+                {
+                    "name": "site_name",
+                    "caption": "site_name",
+                    "control": "text",
+                    "tableDelegate": "text",
+                    "formDelegate": "text",
+                    "filter": "string"
+                },
+                {
+                    "name": "name",
+                    "caption": "name",
+                    "control": "text",
+                    "tableDelegate": "text",
+                    "formDelegate": "text",
+                    "filter": "string"
+                },
+                {
+                    "name": "site_lenght",
+                    "caption": "site_length",
+                    "control": "real",
+                    "tableDelegate": "real",
+                    "formDelegate": "real",
+                    "filter": "real"
+                },
+                {
+                    "name": "class",
+                    "caption": "class",
+                    "control": "text",
+                    "tableDelegate": "text",
+                    "formDelegate": "text",
+                    "filter": "string"
+                },
+                {
+                    "name": "type",
+                    "caption": "type",
+                    "control": "text",
+                    "tableDelegate": "text",
+                    "formDelegate": "text",
+                    "filter": "string"
+                },
+                {
+                    "name": "length",
+                    "caption": "length",
+                    "control": "real",
+                    "tableDelegate": "real",
+                    "formDelegate": "real",
+                    "filter": "real"
+                },
+                {
+                    "name": "section",
+                    "caption": "section",
+                    "control": "real",
+                    "tableDelegate": "real",
+                    "formDelegate": "real",
+                    "filter": "real"
+                },
+                {
+                    "name": "material",
+                    "caption": "material",
+                    "control": "text",
+                    "tableDelegate": "text",
+                    "formDelegate": "text",
+                    "filter": "string"
+                }
+            ],
+            "methods": {
+                "COUNT": "select count(*) from (select s.id as 'site_id', s.name as 'site_name', e.name, m.value as 'site_lenght', p.name as 'class', c.name as 'type', e.length, e.section, e.material from site s left join meter_values m on s.id=m.site_id left join elements e on s.id=e.site_id or s.id=e.second_site_id left join class c on e.class_id=c.id left join class p on c.parent_id=p.id where p.name = 'Кабель' and s.id != '404') a where 1=1",
+                "GET": "select * from (select s.id as 'site_id', s.name as 'site_name', e.name, m.value as 'site_lenght', p.name as 'class', c.name as 'type', e.length, e.section, e.material from site s left join meter_values m on s.id=m.site_id left join elements e on s.id=e.site_id or s.id=e.second_site_id left join class c on e.class_id=c.id left join class p on c.parent_id=p.id where p.name = 'Кабель' and s.id != '404') a where 1=1"
+            }
+        }
+    }
+}

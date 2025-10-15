@@ -1,0 +1,21 @@
+<RCC>
+    <qresource prefix="/">
+        <file>orgraph.qml</file>
+        <file>Node.qml</file>
+        <file>GraphView/NodeDelegate.qml</file>
+        <file>ListView/NodeDelegate.qml</file>
+        <file>GraphView/GraphDelegate.qml</file>
+        <file>Edge.qml</file>
+        <file>nodes.xml</file>
+        <file>ways.xml</file>
+        <file>Graph.qml</file>
+        <file>Fillet.qml</file>
+        <file>HandlesLayer.qml</file>
+        <file>Editor/ToolBase.qml</file>
+        <file>Editor/Drawboard.qml</file>
+        <file>Editor/NodeEditorTool.qml</file>
+        <file>Editor/EdgeEditorTool.qml</file>
+        <file>Editor/NodesView.qml</file>
+        <file>Editor/MouseHandler.qml</file>
+    </qresource>
+</RCC>
